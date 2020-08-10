@@ -26,6 +26,8 @@ This script uses Demo-Europarl-EN.pcl
 
 - [ ] Address the Q&A portion of the meeting, as the summarization for this text is not great
 
+- [ ] Compile list of Community Board members/participants 
+
 ### Citations:
 
 Pulling Transcript from Youtube:
