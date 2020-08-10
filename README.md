@@ -22,7 +22,9 @@ This script uses Demo-Europarl-EN.pcl
 
 - [ ] Connect to email generator so community can read about the meeting by subscribing
 
-- [ ] Remove some boilerplate language from community board meeting transcript such as introductions?
+- [ ] Remove some filler language from community board meeting transcript such as ['um', 'uh', 'next slide']
+
+- [ ] Address the Q&A portion of the meeting, as the summarization for this text is not great
 
 ### Citations:
 
