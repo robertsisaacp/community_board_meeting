@@ -1,9 +1,39 @@
 from youtube_transcript_api import YouTubeTranscriptApi
 from gensim.summarization import summarize
 from punctuator import Punctuator
-import collections
 import os
 from pathlib import Path
+import requests
+import re
+
+
+def get_video_metadata():
+    """
+    Obtains metadata for video
+    :return: list of string values to output as text file along with transcript
+    """
+    response = requests.get(video_url).text
+
+    # collect metadata
+
+    # Community Board Link
+    CB = re.findall(r'"author":"[^>]*",', response)[0].split(',')[0]
+    CB_channel = re.findall(r'"channelId":"[^>]*",', response)[0].split(',')[0][13:-1]
+    channel_link = f'"channelId":"https://www.youtube.com/channel/{CB_channel}'
+
+    # Meeting Information
+    title = re.findall(r'"title":"[^>]*",', response)[0].split(',')[0]
+    date = re.findall(r'"publishDate":"[^>]*",', response)[0].split('",')[0]
+    description = re.findall(r'"shortDescription":"[^>]*",', response)[0].split('",')[0]
+
+    metadata = [CB, title, date, description, channel_link]
+
+    res = []
+    for sub in metadata:
+        if ':' in sub:
+            res.append(map(str.strip, sub.split(':', 1)))
+    res = dict(res)
+    return res
 
 
 def get_transcript(video_id):
@@ -70,13 +100,19 @@ def summarize_text(text_input=None, ratio_input=None):
 
 def output_transcript():
     """
-    Save transcript and summary file to text files
-    :return:
+    Save video metadata, transcript and summary file to text files
+    :return: 3 text files in new directory for each community board
     """
 
+    metadata = get_video_metadata()
     transcript_folder_path = Path("transcripts/")
-    new_transcript_dir = os.path.join(transcript_folder_path, transcript_id)
+    new_transcript_dir = os.path.join(transcript_folder_path, metadata.get('"author"').strip('"'))
     os.makedirs(new_transcript_dir, exist_ok=True)
+
+    # output video metadata
+    with open(f'{new_transcript_dir}//metadata_{transcript_id}.txt', 'w') as f:
+        for value in metadata.values():
+            f.write('{}\n'.format(value))
 
     # output full transcript
     with open(f'{new_transcript_dir}//full_transcript_{transcript_id}.txt', 'w') as f:
@@ -88,8 +124,9 @@ def output_transcript():
 
 
 if __name__ == "__main__":
-    transcript = collections.defaultdict(list)
     transcript_id = input('Enter id from Youtube link:')
+    video_url = f"https://www.youtube.com/watch?v={transcript_id}"
+
     print(f'Obtaining transcript for {transcript_id}')
     meeting = get_transcript(transcript_id)
     print('Transcript obtained!')
@@ -99,7 +136,7 @@ if __name__ == "__main__":
     summary_input = add_punctuation(meeting)
     print('Sentences ready for summarization.')
     print('Saving file output')
-    ratio_of_transcript = .40
+    ratio_of_transcript = .10
     summary_output = summarize_text(summary_input, ratio_of_transcript)
     print('Your Community Board transcript is ready!')
     output_transcript()
