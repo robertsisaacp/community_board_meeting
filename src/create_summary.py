@@ -1,6 +1,9 @@
 from youtube_transcript_api import YouTubeTranscriptApi
 from gensim.summarization import summarize
 from punctuator import Punctuator
+
+import itertools
+import pandas as pd
 import os
 from pathlib import Path
 import requests
@@ -17,21 +20,22 @@ def get_video_metadata():
     # collect metadata
 
     # Community Board Link
-    CB = re.findall(r'"author":"[^>]*",', response)[0].split(',')[0]
-    CB_channel = re.findall(r'"channelId":"[^>]*",', response)[0].split(',')[0][13:-1]
-    channel_link = f'"channelId":"https://www.youtube.com/channel/{CB_channel}'
+    cb = re.findall(r'"author":"[^>]*",', response)[0].split(',')[0]
+    cb_channel = re.findall(r'"channelId":"[^>]*",', response)[0].split(',')[0][13:-1]
+    channel_link = f'"channelId":"https://www.youtube.com/channel/{cb_channel}'
 
     # Meeting Information
     title = re.findall(r'"title":"[^>]*",', response)[0].split(',')[0]
     date = re.findall(r'"publishDate":"[^>]*",', response)[0].split('",')[0]
     description = re.findall(r'"shortDescription":"[^>]*",', response)[0].split('",')[0]
 
-    metadata = [CB, title, date, description, channel_link]
+    metadata = [cb, channel_link, title, date, description]
 
+    # make dictionary from metadata values
     res = []
     for sub in metadata:
         if ':' in sub:
-            res.append(map(str.strip, sub.split(':', 1)))
+            res.append(map(str.strip, sub.replace('"', '').split(':', 1)))
     res = dict(res)
     return res
 
@@ -59,13 +63,14 @@ def get_transcript(video_id):
 
 def clean_transcript(text_input):
     """
-    Removes filler words from transcript
+    Removes filler words from transcript and any repeat words
     :return:
     """
-    filler_words = ['um', 'uh', '[music]']
+    filler_words = ['um', 'uh', '[music]', '[Music]']
     query_words = text_input.split()
 
-    result_words = [word for word in query_words if word.lower() not in filler_words]
+    # check for filler words or for word that repeats in sequence
+    result_words = [word for word, _ in itertools.groupby(query_words) if word not in filler_words]
     return ' '.join(result_words)
 
 
@@ -105,8 +110,8 @@ def output_transcript():
     """
 
     metadata = get_video_metadata()
-    transcript_folder_path = Path("transcripts/")
-    new_transcript_dir = os.path.join(transcript_folder_path, metadata.get('"author"').strip('"'))
+    transcript_folder_path = Path('../transcripts/')
+    new_transcript_dir = os.path.join(transcript_folder_path, metadata.get('author'), metadata.get('publishDate'))
     os.makedirs(new_transcript_dir, exist_ok=True)
 
     # output video metadata
@@ -119,26 +124,39 @@ def output_transcript():
         f.write(summary_input)
 
     # output summary transcript
-    with open(f'{new_transcript_dir}//summary_{ratio_of_transcript*100}%_transcript_{transcript_id}.txt', 'w') as f:
+    with open(f'{new_transcript_dir}//summary_{ratio_of_transcript * 100}%_transcript_{transcript_id}.txt', 'w') as f:
         f.write(summary_output)
 
 
 if __name__ == "__main__":
-    transcript_id = input('Enter id from Youtube link:')
-    video_url = f"https://www.youtube.com/watch?v={transcript_id}"
+    # transcript_id = input('Enter id from Youtube link:')
+    # call in list from csv file
+    video_id_path = Path('../data/')
+    video_id_file = os.path.join(video_id_path, 'video_id_list.csv')
+    video_id_df = pd.read_csv(video_id_file)
 
-    print(f'Obtaining transcript for {transcript_id}')
-    meeting = get_transcript(transcript_id)
-    print('Transcript obtained!')
-    print('Removing uh any um filler words')
-    meeting = clean_transcript(meeting)
-    print('Splitting into Sentences')
-    summary_input = add_punctuation(meeting)
-    print('Sentences ready for summarization.')
-    print('Saving file output')
-    ratio_of_transcript = .10
-    summary_output = summarize_text(summary_input, ratio_of_transcript)
-    print('Your Community Board transcript is ready!')
-    output_transcript()
+    all_ids = list(set(video_id_df['video_id']))
+    print(f'Getting transcripts of {len(all_ids)} Community Board meetings')
+    for i in range(len(all_ids)):
+        print(f'Obtaining transcript {all_ids[i]}')
+        transcript_id = all_ids[i]
+        video_url = f"https://www.youtube.com/watch?v={transcript_id}"
+        print(f'Obtaining transcript for {transcript_id}')
+        try:
+            meeting = get_transcript(transcript_id)
+            print('Transcript obtained!')
 
-
+        except Exception as e:
+            print("Oops!", e.__class__, "occurred.")
+            print('Transcript failed!')
+            continue
+        print('Removing uh any um filler words')
+        meeting = clean_transcript(meeting)
+        print('Splitting into Sentences, adding punctuation')
+        summary_input = add_punctuation(meeting)
+        print('Sentences ready for summarization.')
+        print('Saving file output')
+        ratio_of_transcript = .10
+        summary_output = summarize_text(summary_input, ratio_of_transcript)
+        print('Your Community Board transcript is ready!')
+        output_transcript()

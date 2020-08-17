@@ -1,4 +1,6 @@
-# Community Board Meeting Transcripts
+# NYC Community Board Meeting Transcripts
+
+
 Source for obtaining the transcript from a Community Board meeting. 
 
 Currently this script will import the Youtube recorded transcript from a Community Board meeting and summarize the meeting into a short summary.
