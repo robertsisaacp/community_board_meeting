@@ -49,16 +49,23 @@ def get_transcript(video_id):
     video_id = None if video_id is None else video_id
 
     # use api to read in transcript
-    transcript_input = YouTubeTranscriptApi.get_transcript(video_id)
+    transcript_input = YouTubeTranscriptApi.get_transcript(video_id, languages=('en', 'en-US'))
 
-    # count number of lines
     n = len(transcript_input)
-
     # get text for each line of transcript
     transcript_text = [transcript_input[i].get('text') for i in range(n)]
+    formatted = False
+    if ':' not in transcript_text[0]:
+        transcript_output = " ".join("{}".format(line) for line in transcript_text)
+    if ':' in transcript_text[0]:
+        formatted = True
+        print("Transcript already formatted")
+        transcript_text = [line.split(': ')[-1:] for line in transcript_text]
+        transcript_text = list(itertools.chain.from_iterable(transcript_text))
+        transcript_output = ' '.join(transcript_text)
 
     # output in one string chunk
-    return " ".join("{}".format(line) for line in transcript_text)
+    return transcript_output, formatted
 
 
 def clean_transcript(text_input):
@@ -134,7 +141,6 @@ if __name__ == "__main__":
     video_id_path = Path('../data/')
     video_id_file = os.path.join(video_id_path, 'video_id_list.csv')
     video_id_df = pd.read_csv(video_id_file)
-
     all_ids = list(set(video_id_df['video_id']))
     print(f'Getting transcripts of {len(all_ids)} Community Board meetings')
     for i in range(len(all_ids)):
@@ -143,7 +149,8 @@ if __name__ == "__main__":
         video_url = f"https://www.youtube.com/watch?v={transcript_id}"
         print(f'Obtaining transcript for {transcript_id}')
         try:
-            meeting = get_transcript(transcript_id)
+            meeting, transcript_formatted = get_transcript(transcript_id)
+            print(transcript_formatted)
             print('Transcript obtained!')
 
         except Exception as e:
@@ -152,11 +159,21 @@ if __name__ == "__main__":
             continue
         print('Removing uh any um filler words')
         meeting = clean_transcript(meeting)
-        print('Splitting into Sentences, adding punctuation')
-        summary_input = add_punctuation(meeting)
+
+        if transcript_formatted is False:
+            print('Splitting into Sentences, adding punctuation')
+            print('adding punctation')
+            summary_input = add_punctuation(meeting)
+        else:
+            print('Already split into sentences, transcript aggregated')
+            summary_input = meeting
+
         print('Sentences ready for summarization.')
-        print('Saving file output')
+        # summarization
         ratio_of_transcript = .10
         summary_output = summarize_text(summary_input, ratio_of_transcript)
-        print('Your Community Board transcript is ready!')
+        print('Saving file output')
+
         output_transcript()
+
+        print('Your Community Board transcript is ready!')

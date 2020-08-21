@@ -1,7 +1,9 @@
-# NYC Community Board Meeting Transcripts
+# NYC Community Board Meeting Minutes -NLP & Civic Tech
+<i>A public written record of meeting transcript and summary</i>
 
+Sarah Sachs and Brandon Pachucua
 
-Source for obtaining the transcript from a Community Board meeting. 
+This project seeks to create a tool for the community to stay informed about their local Community Board meetings. 
 
 Currently this script will import the Youtube recorded transcript from a Community Board meeting and summarize the meeting into a short summary.
 
