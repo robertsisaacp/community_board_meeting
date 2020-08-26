@@ -13,10 +13,6 @@ logging.basicConfig(filename='demo.log', level=logging.DEBUG)
 def hello():
 	return "<h1 style='color:steelblue'>Hello from NYC CB!!! </h1>"
 
-@app.route("/sarah")
-def love():
-	return "<h1 style='color:pink;'>I Love you, Sarah June! </h1>"
-
 @app.route("/getSyntheisFromLink", methods=['POST'])
 def retrieveModel():
 	request_data = request.get_json()
