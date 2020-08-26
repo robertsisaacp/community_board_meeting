@@ -10,6 +10,23 @@ import requests
 import re
 
 
+def get_video_list():
+    """
+    call csv file of url
+    """
+    video_id_path = Path('../data/')
+    video_id_file = os.path.join(video_id_path, 'video_id_list.csv')
+    video_id_df = pd.read_csv(video_id_file)
+
+    # filter out anything already processed
+    video_id_df = video_id_df[video_id_df['status'].isna()]
+
+    # make list of video ids
+    video_id_list = list(set(video_id_df['video_id']))
+
+    return video_id_list
+
+
 def get_video_metadata():
     """
     Obtains metadata for video
@@ -138,10 +155,7 @@ def output_transcript():
 if __name__ == "__main__":
     # transcript_id = input('Enter id from Youtube link:')
     # call in list from csv file
-    video_id_path = Path('../data/')
-    video_id_file = os.path.join(video_id_path, 'video_id_list.csv')
-    video_id_df = pd.read_csv(video_id_file)
-    all_ids = list(set(video_id_df['video_id']))
+    all_ids = get_video_list()
     print(f'Getting transcripts of {len(all_ids)} Community Board meetings')
     for i in range(len(all_ids)):
         print(f'Obtaining transcript {all_ids[i]}')
@@ -150,7 +164,6 @@ if __name__ == "__main__":
         print(f'Obtaining transcript for {transcript_id}')
         try:
             meeting, transcript_formatted = get_transcript(transcript_id)
-            print(transcript_formatted)
             print('Transcript obtained!')
 
         except Exception as e:
