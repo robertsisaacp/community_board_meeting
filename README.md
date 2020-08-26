@@ -20,15 +20,15 @@ This script uses Demo-Europarl-EN.pcl
 
 ### Next Steps:
 
-- [ ] Output video information, such as meeting title
+- [ ] Launch API
 
-- [ ] Save textfile in more easy to read format
+- [ ] Automate collection of Community Board transcript link
 
-- [ ] Connect to email generator so community can read about the meeting by subscribing
+- [ ] Connect API to email service provider
 
-- [ ] Remove some filler language from community board meeting transcript such as ['um', 'uh', 'next slide']
+- [ ] Improve extractive summarization quality 
 
-- [ ] Address the Q&A portion of the meeting, as the summarization for this text is not great
+- [ ] Develop abstractive summarization 
 
 - [ ] Compile list of Community Board members/participants 
 
