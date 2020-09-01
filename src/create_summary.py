@@ -1,19 +1,10 @@
-from youtube_transcript_api import YouTubeTranscriptApi
-from gensim.summarization import summarize
-from punctuator import Punctuator
-
-import itertools
-import pandas as pd
-import os
-from pathlib import Path
-import requests
-import re
-
-
 def get_video_list():
     """
     call csv file of url
     """
+    import os
+    from pathlib import Path
+    import pandas as pd
     video_id_path = Path('../data/')
     video_id_file = os.path.join(video_id_path, 'video_id_list.csv')
     video_id_df = pd.read_csv(video_id_file)
@@ -27,11 +18,15 @@ def get_video_list():
     return video_id_list
 
 
-def get_video_metadata():
+def get_video_metadata(transcript_id):
     """
-    Obtains metadata for video
+    Obtains metadata for video from video url requests
     :return: list of string values to output as text file along with transcript
     """
+    import re
+    import requests
+
+    video_url = f"https://www.youtube.com/watch?v={transcript_id}"
     response = requests.get(video_url).text
 
     # collect metadata
@@ -59,21 +54,26 @@ def get_video_metadata():
 
 def get_transcript(video_id):
     """
-    With id from youtube, obtain transcript and join each text phrase into one chunk
+    Use string id from youtube video to get raw transcript text. Join each text phrase into one chunk of text
     :param video_id: id of youtube video
     :return: string of text
     """
-    video_id = None if video_id is None else video_id
+    from youtube_transcript_api import YouTubeTranscriptApi
+    import itertools
 
     # use api to read in transcript
     transcript_input = YouTubeTranscriptApi.get_transcript(video_id, languages=('en', 'en-US'))
 
     n = len(transcript_input)
-    # get text for each line of transcript
+    # get all text for each line of transcript
     transcript_text = [transcript_input[i].get('text') for i in range(n)]
+
+    # if there is already a semicolon in the raw text, the video was formatted differently
     formatted = False
     if ':' not in transcript_text[0]:
         transcript_output = " ".join("{}".format(line) for line in transcript_text)
+
+    # if captions already formatted, we do not want to add punctuation
     if ':' in transcript_text[0]:
         formatted = True
         print("Transcript already formatted")
@@ -90,6 +90,8 @@ def clean_transcript(text_input):
     Removes filler words from transcript and any repeat words
     :return:
     """
+    import itertools
+
     filler_words = ['um', 'uh', '[music]', '[Music]']
     query_words = text_input.split()
 
@@ -105,37 +107,41 @@ def add_punctuation(text_input):
     :param text_input: transcript input
     :return: transcript input with grammar added
     """
+    from punctuator import Punctuator
+
     # import default pre-trained model from punctuator
     p = Punctuator('Demo-Europarl-EN.pcl')
-
-    text_input = None if text_input is None else text_input
 
     sentences = p.punctuate(text_input)
     return sentences
 
 
-def summarize_text(text_input=None, ratio_input=None):
+def summarize_text(text_input=None, ratio_input=None, word_count=None):
     """
     Generate summary from the sentences of transcript, using Gensim
     :param text_input: punctuated transcript
     :param ratio_input: proportion of transcript to output as summary
+    :param word_count: if entered
     :return: summary of transcript that is shortened to the ratio proportion
     """
-    text_input = None if text_input is None else text_input
+    from gensim.summarization import summarize
 
     summary = summarize(text_input, ratio=ratio_input)
     return summary
 
 
-def output_transcript():
+def output_transcript(transcript_id, summary_input, summary_output, ratio_of_transcript):
     """
     Save video metadata, transcript and summary file to text files
     :return: 3 text files in new directory for each community board
     """
+    import os
+    from pathlib import Path
 
-    metadata = get_video_metadata()
+    metadata = get_video_metadata(transcript_id)
     transcript_folder_path = Path('../transcripts/')
-    new_transcript_dir = os.path.join(transcript_folder_path, metadata.get('author'), metadata.get('publishDate'))
+    new_transcript_dir = os.path.join(transcript_folder_path, metadata.get('author'),
+                                      metadata.get('publishDate'))
     os.makedirs(new_transcript_dir, exist_ok=True)
 
     # output video metadata
@@ -152,41 +158,4 @@ def output_transcript():
         f.write(summary_output)
 
 
-if __name__ == "__main__":
-    # transcript_id = input('Enter id from Youtube link:')
-    # call in list from csv file
-    all_ids = get_video_list()
-    print(f'Getting transcripts of {len(all_ids)} Community Board meetings')
-    for i in range(len(all_ids)):
-        print(f'Obtaining transcript {all_ids[i]}')
-        transcript_id = all_ids[i]
-        video_url = f"https://www.youtube.com/watch?v={transcript_id}"
-        print(f'Obtaining transcript for {transcript_id}')
-        try:
-            meeting, transcript_formatted = get_transcript(transcript_id)
-            print('Transcript obtained!')
 
-        except Exception as e:
-            print("Oops!", e.__class__, "occurred.")
-            print('Transcript failed!')
-            continue
-        print('Removing uh any um filler words')
-        meeting = clean_transcript(meeting)
-
-        if transcript_formatted is False:
-            print('Splitting into Sentences, adding punctuation')
-            print('adding punctation')
-            summary_input = add_punctuation(meeting)
-        else:
-            print('Already split into sentences, transcript aggregated')
-            summary_input = meeting
-
-        print('Sentences ready for summarization.')
-        # summarization
-        ratio_of_transcript = .10
-        summary_output = summarize_text(summary_input, ratio_of_transcript)
-        print('Saving file output')
-
-        output_transcript()
-
-        print('Your Community Board transcript is ready!')
