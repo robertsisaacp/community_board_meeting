@@ -1,3 +1,5 @@
 /.idea
 /data/info
 .vscode
+/Flask/demo.log
+sendgrid.myenv3
