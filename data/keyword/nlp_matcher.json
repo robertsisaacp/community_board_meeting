@@ -1,0 +1,13 @@
+{
+  "parks":[ "park", "tree", "bush", "greenway", "cycle", "lane", "rotunda"],
+  "land_use":["drive", "compost", "garden", "school", "street", "hotel", "local", "housing"],
+  "police": ["enforcement", "marijuana", "police", "crime", "defecation", "masturbation"],
+  "people": ["pedestrian", "baby", "people", "men", "women", "child", "parent", "family", "kid", "population",
+    "resident", "neighbor"],
+  "social": ["life", "situation", "hate", "donate", "income", "segregation", "racial", "inequality", "wealth", "health",
+    "education", "sex offender", "racism", "bias"],
+  "policy": ["careful", "protect", "financial", "capital", "affordable", "stability", "access", "money", "danger",
+    "security"],
+  "meeting": ["agenda", "resolution", "vote", "crisis", "organization", "service"],
+  "covid": ["pandemic", "Covid-19", "social distance", "shelter"]
+}
