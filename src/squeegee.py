@@ -1,3 +1,20 @@
+def word_counter(nlp_text):
+    """
+    Counts number of words
+    """
+    import spacy
+    nlp = spacy.load('en_core_web_sm')
+
+    # apply spacy nlp
+    doc = nlp(nlp_text)
+
+    # remove stopwords and punctuations
+    words = [token.text for token in doc if token.is_stop != True and token.is_punct != True]
+    num_words = len(words)
+
+    return num_words
+
+
 def phrase_list(text):
     """
     Establish list of terms to capture desired context parameters. Extracts sentences that match phrase
@@ -13,7 +30,7 @@ def phrase_list(text):
     phrases = ['purpose', 'first', 'second', 'third', 'important', 'critical', 'success', 'failure',
                'unfortunate', 'pandemic', 'transparent', 'community', 'sick', 'concern', 'public',
                'homeless', 'safety', 'police', 'letter', 'petition', 'manage', 'support', 'access',
-               'education', 'policy']
+               'education', 'policy', 'situation', 'park', 'new york city', 'bureaucracy']
 
     # build vocabulary pattern
     patterns = [nlp(text) for text in phrases]
