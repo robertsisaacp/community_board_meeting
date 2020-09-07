@@ -1,11 +1,37 @@
 {
   "Covid-19": [
     "covin",
-    "covid"
+    "covid",
+    "coven 19",
+    "coven",
+    "kobit",
+    "kova 19",
+    "Kova"
   ],
   "capital": [
     "epa",
-    "cdc"
+    "cdc",
+    "nycha",
+    "nyc",
+    "osha",
+    "usa",
+    "nypd",
+    "doe",
+    "dob",
+    "dot"
+  ],
+  "title": [
+    "brooklyn",
+    "manhattan",
+    "queens",
+    "bronx",
+    "staten island",
+    "new york city",
+    "lexington",
+    "rikers",
+    "florida",
+    "california",
+    "january"
   ],
   "filler": [
     "um",

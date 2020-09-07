@@ -79,41 +79,10 @@ def get_transcript(video_id):
         print("Transcript already formatted")
         transcript_text = [line.split(': ')[-1:] for line in transcript_text]
         transcript_text = list(itertools.chain.from_iterable(transcript_text))
-        transcript_output = ' '.join(transcript_text)
+        transcript_output = " ".join(transcript_text)
 
     # output in one string chunk
     return transcript_output, formatted
-
-
-def clean_transcript(text_input):
-    """
-    Removes filler words from transcript and any repeat words
-    :return:
-    """
-    import itertools
-
-    filler_words = ['um', 'uh', '[music]', '[Music]']
-    query_words = text_input.split()
-
-    # check for filler words or for word that repeats in sequence
-    result_words = [word for word, _ in itertools.groupby(query_words) if word not in filler_words]
-    return ' '.join(result_words)
-
-
-def add_punctuation(text_input):
-    """
-    Using Punctuator2 from https://github.com/ottokart/punctuator2
-    Breakdown the transcript chunk into sentences with grammar.
-    :param text_input: transcript input
-    :return: transcript input with grammar added
-    """
-    from punctuator import Punctuator
-
-    # import default pre-trained model from punctuator
-    p = Punctuator('Demo-Europarl-EN.pcl')
-
-    sentences = p.punctuate(text_input)
-    return sentences
 
 
 def summarize_text(text_input=None, ratio_input=None, word_count=None):
