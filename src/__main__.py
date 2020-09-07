@@ -1,5 +1,5 @@
 from src.create_summary import *
-from src.squeegee import phrase_list
+from src.squeegee import *
 
 if __name__ == "__main__":
     # Call in list of url strings from csv file
@@ -28,7 +28,8 @@ if __name__ == "__main__":
         else:
             # if already formatted, just keep as is
             print('Already split into sentences, transcript aggregated')
-            summary_input = meeting
+            print('Found one example without punctuation, so adding Punctuation')
+            summary_input = add_punctuation(meeting)
 
         print('Filter to sentences with key content')
         key_sentences = phrase_list(summary_input)
