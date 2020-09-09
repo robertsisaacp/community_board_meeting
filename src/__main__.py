@@ -39,7 +39,12 @@ if __name__ == "__main__":
         ratio_of_transcript = .10
         summary_output = summarize_text(key_sentences, ratio_of_transcript)
         print('Saving file output')
-
-        output_transcript(transcript_id, summary_input, summary_output, ratio_of_transcript)
+        youtube_metadata, cb_metadata = get_video_metadata(transcript_id)
+        output_transcript(transcript_id, summary_input, summary_output, ratio_of_transcript, youtube_metadata)
 
         print('Your Community Board transcript is ready!')
+
+        # generate json for database
+        print('Generating json object')
+
+        make_json(youtube_metadata, cb_metadata, summary_input, summary_output)

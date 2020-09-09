@@ -1,14 +1,14 @@
 {
-  "parks":["garden", "park", "tree", "bush", "greenway", "green", "air quality", "planters", "fence"],
+  "parks":["garden", "park", "tree", "bush", "greenway", "green", "air quality", "planters", "fence", "outdoor"],
   "transportation": ["ferry", "transportation", "sidewalk", "street", "cycle", "lane", "rotunda", "curb", "bridge",
     "lane", "bus", "subway", "car", "driving", "avenue", "e-bikes", "bicycles", "bicycle", "cyclist", "cycling",
     "river", "scooters"],
   "land_use":["power",  "drive", "compost",  "school", "hotel", "local", "housing", "space", "residential", "commercial",
   "block", "infrastructure", "consent", "area", "townhouse", "facade", "landmarks", "stairs", "door", "landing",
-  "architect", "parking", "placard", "zones", "zoning", "traffic", "installation", "meters"],
+  "architect", "parking", "placard", "zones", "zoning", "traffic", "installation", "meters", "indoor", "euler"],
   "police": ["homeless", "safety", "police", "enforcement", "marijuana", "crime", "defecation", "masturbation", "court",
   "decriminalization", "decarceration", "incarceration", "law", "criminal", "legal", "justice", "conflict", "detention",
-  "drug", "misdemeanor", "felony", "murder", "robbery", "counterfeit"],
+  "drug", "misdemeanor", "felony", "murder", "robbery", "counterfeit", "suing"],
   "people": ["pedestrian", "baby", "people", "men", "women", "child", "parent", "family", "kid", "population",
     "resident", "neighbor", "workforce", "family", "turnover", "personal", "physician", "teen", "hiring", "hire",
   "teacher", "cousin", "senior", "disabled", "personnel", "mother", "father"],
@@ -29,6 +29,8 @@
   "second wave", "telemedicine", "oxygen", "bed", "susceptible", "tested", "testing", "n95", "glove", "swab", "saliva",
   "vaccine", "contact"],
   "budget": ["cost", "budget", "financial", "capital", "affordable", "money", "grant", "funding", "fund"],
-  "nyc": ["new york city", "borough", "Manhattan", "Queens", "Bronx", "Brooklyn", "agencies", "mayor", "state"],
+  "person": ["Cuomo", "Blasio"],
+  "nyc": ["new york city", "borough", "Manhattan", "Queens", "Bronx", "Brooklyn", "agencies", "mayor", "state",
+    "governor"],
   "adjective": ["horrendous", "unfortunate", "suffer", "danger", "gnarliness", "untenable", "forgetfulness"]
 }
