@@ -18,6 +18,24 @@ def get_video_list():
     return video_id_list
 
 
+def get_cb_info(cb_name):
+    """
+    @type cb_name: str
+    :return: communityID from name in YouTube
+    """
+    import os
+    from pathlib import Path
+    import pandas as pd
+    cb_id_path = Path('../data/')
+    cb_id_file = os.path.join(cb_id_path, 'CB_ID.csv')
+    cb_id_df = pd.read_csv(cb_id_file)
+
+    # match column of youtubeChannelName, get cb_id
+    cb_info = cb_id_df[cb_id_df['youtubeChannelName'] == cb_name].to_dict(orient='records')
+
+    return cb_info
+
+
 def get_video_metadata(transcript_id):
     """
     Obtains metadata for video from video url requests
@@ -44,12 +62,19 @@ def get_video_metadata(transcript_id):
     metadata = [cb, channel_link, title, date, description]
 
     # make dictionary from metadata values
-    res = []
+    metadata_list = []
     for sub in metadata:
         if ':' in sub:
-            res.append(map(str.strip, sub.replace('"', '').split(':', 1)))
-    res = dict(res)
-    return res
+            metadata_list.append(map(str.strip, sub.replace('"', '').split(':', 1)))
+    metadata_dict = dict(metadata_list)
+
+    # get cb_info
+    cb_info = get_cb_info(metadata_dict.get('author'))[0]
+    # normalize author name to communityID
+    cb_id = cb_info.get('communityID')
+    metadata_dict.update({'author': cb_id})
+
+    return metadata_dict, cb_info
 
 
 def get_transcript(video_id):
@@ -99,7 +124,7 @@ def summarize_text(text_input=None, ratio_input=None, word_count=None):
     return summary
 
 
-def output_transcript(transcript_id, summary_input, summary_output, ratio_of_transcript):
+def output_transcript(transcript_id, summary_input, summary_output, ratio_of_transcript, metadata):
     """
     Save video metadata, transcript and summary file to text files
     :return: 3 text files in new directory for each community board
@@ -107,7 +132,6 @@ def output_transcript(transcript_id, summary_input, summary_output, ratio_of_tra
     import os
     from pathlib import Path
 
-    metadata = get_video_metadata(transcript_id)
     transcript_folder_path = Path('../transcripts/')
     new_transcript_dir = os.path.join(transcript_folder_path, metadata.get('author'),
                                       metadata.get('publishDate'))
@@ -127,4 +151,22 @@ def output_transcript(transcript_id, summary_input, summary_output, ratio_of_tra
         f.write(summary_output)
 
 
+def make_json(metadata, cb_info, summary_input, summary_output) -> object:
+    """make json object from all data"""
+    import json
+    from pathlib import Path
 
+    json_folder_path = Path('../json_objects/')
+
+    output_json = {"YoutubeMetadata": metadata,
+                   "metadata": {"ID": "String",
+                                "creationDate": "datetime"},
+                   "CommunityBoardInfo": cb_info,
+                   "properties": {
+                       "fullTranscript": summary_input,
+                       "summary": summary_output}
+                   }
+    out_file = open(f"{json_folder_path}//test1.json", "w")
+    json.dump(output_json, out_file, indent=4, sort_keys=False)
+    out_file.close()
+    
