@@ -31,8 +31,11 @@ if __name__ == "__main__":
             print('Found one example without punctuation, so adding Punctuation')
             summary_input = add_punctuation(meeting)
 
-        print('Filter to sentences with key content')
+        print('Filter to sentences with key content first time')
         key_sentences = phrase_list(summary_input)
+
+        print('Filter to sentences with key content second time')
+        key_sentences = iterate_summary_input(key_sentences)
 
         print('Sentences ready for Summarization.')
         # summarization
@@ -47,4 +50,4 @@ if __name__ == "__main__":
         # generate json for database
         print('Generating json object')
 
-        make_json(youtube_metadata, cb_metadata, summary_input, summary_output)
+        make_json(transcript_id, youtube_metadata, cb_metadata, summary_input, summary_output)
