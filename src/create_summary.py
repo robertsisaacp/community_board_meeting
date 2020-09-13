@@ -151,7 +151,7 @@ def output_transcript(transcript_id, summary_input, summary_output, ratio_of_tra
         f.write(summary_output)
 
 
-def make_json(metadata, cb_info, summary_input, summary_output) -> object:
+def make_json(transcript_id, metadata, cb_info, summary_input, summary_output) -> object:
     """make json object from all data"""
     import json
     from pathlib import Path
@@ -166,7 +166,7 @@ def make_json(metadata, cb_info, summary_input, summary_output) -> object:
                        "fullTranscript": summary_input,
                        "summary": summary_output}
                    }
-    out_file = open(f"{json_folder_path}//test1.json", "w")
+    out_file = open(f"{json_folder_path}//{transcript_id}_v2.json", "w")
     json.dump(output_json, out_file, indent=4, sort_keys=False)
     out_file.close()
     

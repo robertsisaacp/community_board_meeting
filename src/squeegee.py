@@ -36,19 +36,41 @@ def clean_transcript(text_input):
     return ' '.join(text_output)
 
 
-def add_punctuation(text_input):
+def add_punctuation(text_input, iteration=None):
     """
     Using Punctuator2 from https://github.com/ottokart/punctuator2
     Breakdown the transcript chunk into sentences with grammar.
     :param text_input: transcript input
     :return: transcript input with grammar added
+    @param text_input:
+    @param iteration: if True, then remove the commas to re-ad
     """
+    import re
     from punctuator import Punctuator
 
     # import default pre-trained model from punctuator
     p = Punctuator('Demo-Europarl-EN.pcl')
 
-    sentences = p.punctuate(text_input)
+    if iteration is None:
+        sentences = p.punctuate(text_input)
+    else:
+        # remove existing commas
+        text_input = re.sub(r'\.(?!\d)', '', text_input)
+        text_input = re.sub(r'\,(?!\d)', '', text_input)
+
+        # remove lingering repeated word
+
+        sentences = p.punctuate(text_input)
+
+        # fix duplicate punctuation
+        sentences = sentences.replace('..', '.')
+        sentences = sentences.replace('??', '?')
+        sentences = sentences.replace('!!', '!')
+        sentences = sentences.replace(':.', ':')
+        sentences = sentences.replace(',.', '.')
+        sentences = sentences.replace(':,', ',')
+        sentences = sentences.replace('-,', ',')
+
     return sentences
 
 
@@ -77,7 +99,6 @@ def total_num_word_counter(processed_text):
     Counts number of words
     """
     import spacy
-    nlp = spacy.load('en_core_web_sm')
 
     # remove stopwords and punctuations
     words = [token.text for token in processed_text if token.is_stop != True and token.is_punct != True]
@@ -101,7 +122,7 @@ def phrase_list(text):
     """
     Establish list of terms to capture desired context parameters. Extracts sentences that match phrase
     """
-    from collections import Counter
+
     import spacy
     from spacy.matcher import PhraseMatcher
     nlp = spacy.load('en_core_web_sm')
@@ -136,4 +157,16 @@ def phrase_list(text):
                     important_sentences.append(sent.text)
     # remove duplicate sentences and join
     all_text = " ".join(list(dict.fromkeys(important_sentences)))
+
+    return all_text
+
+
+def iterate_summary_input(input_text):
+    """
+    run second time to re-add punctuation and then filter though key word list
+    @return:
+    """
+    # rerun punctuation model, with better performance on smaller subset of text
+    all_text = add_punctuation(input_text, iteration=True)
+    all_text = phrase_list(all_text)
     return all_text
