@@ -7,7 +7,10 @@
     "kobit",
     "kova 19",
     "Kova",
-    "covenanting"
+    "covenanting",
+    "Cova da 19",
+    "Cova",
+    "coveted"
   ],
   "capital": [
     "epa",
@@ -23,7 +26,9 @@
     "dca",
     "ppe",
     "cecm",
-    "sapo"
+    "sapo",
+    "edc",
+    "rfp"
   ],
   "title": [
     "brooklyn",
@@ -39,7 +44,9 @@
     "january",
     "cuomo",
     "blasio",
-    "palitz"
+    "palitz",
+    "america",
+    "pacific"
   ],
   "filler": [
     "um",
@@ -48,6 +55,11 @@
     "[Music]"
   ],
   "spelling": {
-    "screenway":"greenway"
+    "screenway":"greenway",
+    "We can go to the next slide": "",
+    "adc": "edc",
+    "9, 11": "9/11",
+    "conned": "Con Edison",
+    "mirrors": "minors"
   }
 }
