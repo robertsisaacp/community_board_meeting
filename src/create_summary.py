@@ -60,6 +60,7 @@ def get_video_metadata(transcript_id):
     description = re.findall(r'"shortDescription":"[^>]*",', response)[0].split('",')[0]
 
     metadata = [cb, channel_link, title, date, description]
+    print(metadata)
 
     # make dictionary from metadata values
     metadata_list = []
@@ -166,7 +167,7 @@ def make_json(transcript_id, metadata, cb_info, summary_input, summary_output) -
                        "fullTranscript": summary_input,
                        "summary": summary_output}
                    }
-    out_file = open(f"{json_folder_path}//{transcript_id}_v2.json", "w")
+    out_file = open(f"{json_folder_path}//{transcript_id}.json", "w")
     json.dump(output_json, out_file, indent=4, sort_keys=False)
     out_file.close()
     
