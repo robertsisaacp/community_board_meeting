@@ -2,10 +2,11 @@ from src.create_summary import *
 
 
 def test_get_video_metadata():
-    video_id = "dIT1iiPoLKU"
+    video_id = "QeNf4ZZxqiU"
     metadata_dict = get_video_metadata(video_id)[0]
-    author = metadata_dict.get('author')
-    assert author == "SCB2"
+
+    #author = metadata_dict.get('author')
+    assert metadata_dict == "SCB2"
 
 
 def test_get_transcript():

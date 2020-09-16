@@ -60,6 +60,7 @@ def get_video_metadata(transcript_id):
     description = re.findall(r'"shortDescription":"[^>]*",', response)[0].split('",')[0]
 
     metadata = [cb, channel_link, title, date, description]
+    print(metadata)
 
     # make dictionary from metadata values
     metadata_list = []

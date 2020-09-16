@@ -5,7 +5,12 @@ if __name__ == "__main__":
     # Call in list of url strings from csv file
     all_ids = get_video_list()
     print(f'Getting transcripts for {len(all_ids)} Community Board meetings')
+    progress_batch = 0
+    total_in_queue = len(all_ids)
     for i in range(len(all_ids)):
+        print("Progress: ")
+        print(f'{progress_batch} ids processed, out of {len(all_ids)} Community Board meetings queued')
+        print(f'{total_in_queue} ids in queue')
         print(f'Obtaining transcript {all_ids[i]}')
         transcript_id = all_ids[i]
         video_url = f"https://www.youtube.com/watch?v={transcript_id}"
@@ -51,3 +56,6 @@ if __name__ == "__main__":
         print('Generating json object')
 
         make_json(transcript_id, youtube_metadata, cb_metadata, summary_input, summary_output)
+        # Add to progress bar
+        progress_batch = progress_batch + 1
+        total_in_queue = total_in_queue - 1
