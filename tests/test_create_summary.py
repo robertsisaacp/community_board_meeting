@@ -24,10 +24,15 @@ def test_get_cb_info():
 
 
 def test_get_cb_info_simple():
-    communityID_dict = get_cb_info('Queens Community Board 3 Virtual Meetings')[0]
+    communityID_dict = get_cb_info('Queens Community Board Thirteen')
     communityID = communityID_dict.get('communityID')
-    assert communityID == 'QCB3'
+    assert communityID == 'QCB13'
 
+
+def test_get_cb_info_nan():
+    communityID_dict = get_cb_info('Queens Community Board Thirteen')
+    communityID = communityID_dict.get('twitterHandle')
+    assert communityID == None
 
 def test_make_json():
     output_json = make_json('hi', 'there', 'good', 'sir')

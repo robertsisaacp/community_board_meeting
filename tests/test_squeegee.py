@@ -10,9 +10,13 @@ def test_total_num_word_counter():
 
 def test_noun_counter():
     # get transcript text
-    video_id = "JcQSyuttoRU"
-    transcript_text = get_transcript(video_id)[0]
-    word_count = noun_counter(transcript_text)
+
+    import json
+    with open(f'../json_objects/BiPmjuZAJkc.json') as jsonfile:
+        data = json.load(jsonfile)
+        summary = data.get('properties').get('summary')
+        word_count = noun_counter(summary, 10)
+
     assert word_count == 3
 
 
@@ -33,7 +37,7 @@ def test_phrase_list():
 
 def test_phrase_list_more_robust():
     import json
-    with open(f'../json_objects/Z1YnL2Bq23U_v1.json') as jsonfile:
+    with open(f'../json_objects/BiPmjuZAJkc.json') as jsonfile:
         data = json.load(jsonfile)
         summary = data.get('properties').get('summary')
         important_sentence = phrase_list(summary)
