@@ -153,7 +153,8 @@ def output_transcript(transcript_id, summary_input, summary_output, ratio_of_tra
         f.write(summary_output)
 
 
-def make_json(transcript_id, metadata, cb_info, summary_input, summary_output, full_word_count, summary_word_count) -> object:
+def make_json(transcript_id, metadata, cb_info, summary_input, summary_output, full_word_count, summary_word_count,
+              num_filler) -> object:
     """make json object from all data"""
     import json
     from pathlib import Path
@@ -167,6 +168,7 @@ def make_json(transcript_id, metadata, cb_info, summary_input, summary_output, f
                          "creationDate": "datetime"},
             "CommunityBoardInfo": cb_info},
         "properties": {
+            "fillerWordCount": num_filler,
             "wordCountFullTranscript": full_word_count,
             "wordCountSummary": summary_word_count,
             "fullTranscript": summary_input,

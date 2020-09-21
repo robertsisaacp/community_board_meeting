@@ -51,9 +51,16 @@ def test_phrase_maker():
 
 
 def test_clean_transcript():
-    text = "um testing testing 1,2,3"
+    text = "um testing testing testing 1,2,3"
     clean_text = clean_transcript(text)
     assert clean_text == 'testing 1,2,3'
+
+
+def test_clean_transcript_count_uh():
+    text = "uh testing testing testing 1,2,3"
+    clean_text = clean_transcript(text)[1]
+    clean_text = clean_text.get('uh')
+    assert clean_text == 1
 
 
 def test_clean_transcript_covid():

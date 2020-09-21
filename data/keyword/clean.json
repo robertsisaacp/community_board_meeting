@@ -16,7 +16,8 @@
     "covet",
     "cov19",
     "ovid 19",
-    "ovid"
+    "ovid",
+    "kovid"
   ],
   "capital": [
     "epa",
@@ -37,6 +38,7 @@
     "edc",
     "rfp",
     "d-o-t",
+    "d.o.t",
     "wpa",
     "dcla",
     "cd",
@@ -44,7 +46,17 @@
     "boe",
     "dns",
     "hpd",
-    "enl"
+    "enl",
+    "nimby",
+    "gmac",
+    "mou",
+    "oem",
+    "ami",
+    "dhs",
+    "hr",
+    "ngos",
+    "omb",
+    "bsa"
   ],
   "title": [
     "brooklyn",
@@ -68,7 +80,9 @@
     "march",
     "april",
     "july",
-    "october"
+    "october",
+    "november",
+    "september"
   ],
   "filler": [
     "um",
@@ -82,6 +96,8 @@
     "adc": "edc",
     "9, 11": "9/11",
     "conned": "Con Edison",
-    "mirrors": "minors"
+    "mirrors": "minors",
+    "city bike": "CitiBike",
+    "nimbyism": "NIMBY-ism"
   }
 }

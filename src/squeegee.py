@@ -13,6 +13,9 @@ def clean_transcript(text_input):
     filler_words = data.get('filler')
     query_words = text_input.split()
 
+    # count and store number of "um", "uh" that was removed
+    num_filler = {'uh': query_words.count('uh'), 'um': query_words.count('um')}
+
     # check for filler words or for word that repeats in sequence
     remove_dupe_and_filler_words = [word for word, _ in itertools.groupby(query_words) if word not in filler_words]
 
@@ -33,7 +36,7 @@ def clean_transcript(text_input):
     spelling_words = data.get('spelling')
     text_output = [spelling_words[word] if word in spelling_words else word for word in fix_title]
 
-    return ' '.join(text_output)
+    return ' '.join(text_output), num_filler
 
 
 def add_punctuation(text_input, iteration=None):
@@ -63,15 +66,21 @@ def add_punctuation(text_input, iteration=None):
         sentences = p.punctuate(text_input)
 
         # fix duplicate punctuation
+        sentences = sentences.replace(' .', '.')
+        sentences = sentences.replace(' :', ':')
+        sentences = sentences.replace(' ,', ',')
         sentences = sentences.replace(', ,', ',')
         sentences = sentences.replace(', :', ',')
         sentences = sentences.replace(', .', ',')
+        sentences = sentences.replace(' ,,', ',')
         sentences = sentences.replace(',,', ',')
         sentences = sentences.replace('. .', '.')
         sentences = sentences.replace('.,', '.')
         sentences = sentences.replace(',-', '-')
         sentences = sentences.replace('..', '.')
         sentences = sentences.replace('??', '?')
+        sentences = sentences.replace('?,', '?')
+        sentences = sentences.replace(',?', '?')
         sentences = sentences.replace('!!', '!')
         sentences = sentences.replace(':.', ':')
         sentences = sentences.replace(',.', '.')
