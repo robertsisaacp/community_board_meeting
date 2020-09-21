@@ -31,7 +31,8 @@ def get_cb_info(cb_name):
     cb_id_df = pd.read_csv(cb_id_file)
 
     # match column of youtubeChannelName, get cb_id
-    cb_info = cb_id_df[cb_id_df['youtubeChannelName'] == cb_name].to_dict(orient='records')
+    cb_info = \
+    cb_id_df[cb_id_df['youtubeChannelName'] == cb_name].where(cb_id_df.notnull(), None).to_dict(orient="records")[0]
 
     return cb_info
 
@@ -70,7 +71,7 @@ def get_video_metadata(transcript_id):
     metadata_dict = dict(metadata_list)
 
     # get cb_info
-    cb_info = get_cb_info(metadata_dict.get('author'))[0]
+    cb_info = get_cb_info(metadata_dict.get('author'))
     # normalize author name to communityID
     cb_id = cb_info.get('communityID')
     metadata_dict.update({'author': cb_id})
@@ -152,22 +153,27 @@ def output_transcript(transcript_id, summary_input, summary_output, ratio_of_tra
         f.write(summary_output)
 
 
-def make_json(transcript_id, metadata, cb_info, summary_input, summary_output) -> object:
+def make_json(transcript_id, metadata, cb_info, summary_input, summary_output, full_word_count, summary_word_count,
+              num_filler) -> object:
     """make json object from all data"""
     import json
     from pathlib import Path
 
     json_folder_path = Path('../json_objects/')
 
-    output_json = {"YoutubeMetadata": metadata,
-                   "metadata": {"ID": "String",
-                                "creationDate": "datetime"},
-                   "CommunityBoardInfo": cb_info,
-                   "properties": {
-                       "fullTranscript": summary_input,
-                       "summary": summary_output}
-                   }
+    output_json = {
+        "data": {
+            "YoutubeMetadata": metadata,
+            "metadata": {"ID": "String",
+                         "creationDate": "datetime"},
+            "CommunityBoardInfo": cb_info},
+        "properties": {
+            "fillerWordCount": num_filler,
+            "wordCountFullTranscript": full_word_count,
+            "wordCountSummary": summary_word_count,
+            "fullTranscript": summary_input,
+            "summary": summary_output}
+    }
     out_file = open(f"{json_folder_path}//{transcript_id}.json", "w")
     json.dump(output_json, out_file, indent=4, sort_keys=False)
     out_file.close()
-    

@@ -1,28 +1,57 @@
 {
-    "YoutubeMetadata": {
-        "author": "MCB4",
-        "channelId": "https://www.youtube.com/channel/UCs28KnPXNjSczQAek-w2vOg",
-        "title": "MCB4 September 2020 Full Board Meeting (Part 2)",
-        "publishDate": "2020-09-10",
-        "shortDescription": "Wednesday, September 2nd, 2020\\n\\nPRESENTATION \\u0026 PUBLIC HEARINGS   \\nPresentation: 10th Precinct Commanding Officer Inspector Kevin Coleman\\nPresentation: NYC Comptroller\u2019s Office on the Status of the City\u2019s Budget\\n \\nMEETING AGENDA\\n  \\nPublic Session \u2013 (Speakers list sign up will stop at 6:45pm)    Jeffrey LeFrancois\\nAdoption of Agenda\\nAdoption of Last Month\u2019s Minutes  Lowell D. Kern\\n\\nReports  \\nManhattan Borough President  Brian Lewis\\nLocal Elected Officials  Various \\nDistrict Manager\u2019s Report  Jesse Bodine\\nChair Report/Committee Reports  Lowell D. Kern\\n\\n\\nBusiness License \\u0026 Permits Committee (BLP)\\nItem 01: Letter to SLA re 149 W 14th Street (6/7) \u2013 Chama Mama LLC\\nItem 02: Letter to SLA re 214 10th Avenue (22/23) \u2013 Don Giovanni Ristorante\\nItem 03: Letter to SLA re 180 7th Avenue (22/23) \u2013 Chelsea Pasta LLC\\nItem 04: Letter to SLA re 623 9th Avenue (44) \u2013 Lotus West Corp. d/b/a Pulperia\\n\\nOld/New Business_____________________________________________________________\\nItem 05: Balanced Business Task Force Letter to Mayor and City Council on Small Business Support and Reopening Forum and Recommendations\\nItem 06: Social Justice Working Group Letter to City Council re Oversight Hearing on NYPD Incident on West 45th Street and Black Lives Matter Organizer\\nItem 07: Social Justice Working Group Letter to NYPD re Utilization of Facial Recognition Software\\nItem 08: Letter to DOE re Student Teacher Virtual Learning Initiative\\nItem 09:  Letter to DOE re Security For Open Street School Program \\n \\nNothing to Report\\nArts, Culture, Education, and Street Life (ACES); Chelsea Land Use Committee (CLU); Transportation Planning Committee (TRANS); Waterfront, Parks \\u0026 Environment Committee (WPE); Clinton\\\\Hell\u2019s Kitchen Land Use Committee (CHKLU); Housing, Health \\u0026 Human Services Committee (HHHS); Executive Committee (EXEC)"
-    },
-    "metadata": {
-        "ID": "String",
-        "creationDate": "datetime"
-    },
-    "CommunityBoardInfo": {
-        "communityID": "MCB4",
-        "normalizedName": "Manhattan Community Board 4",
-        "twitterName": "Community Board 4",
-        "youtubeChannelName": "Manhattan Community Board 4",
-        "youtubeChannelURL": "https://www.youtube.com/channel/UCVuHwITcFASNggyVX847NNg",
-        "twitterHandle": "@ManhattanBoard4",
-        "dateCheckLast": "9/13/2020",
-        "status": "live",
-        "Unnamed: 8": NaN
+    "data": {
+        "YoutubeMetadata": {
+            "author": "MCB4",
+            "channelId": "https://www.youtube.com/channel/UCVuHwITcFASNggyVX847NNg",
+            "title": "MCB4 September 2020 Full Board Meeting (Part 2)",
+            "publishDate": "2020-09-10",
+            "shortDescription": "Wednesday, September 2nd, 2020\\n\\nPRESENTATION \\u0026 PUBLIC HEARINGS   \\nPresentation: 10th Precinct Commanding Officer Inspector Kevin Coleman\\nPresentation: NYC Comptroller\u2019s Office on the Status of the City\u2019s Budget\\n \\nMEETING AGENDA\\n  \\nPublic Session \u2013 (Speakers list sign up will stop at 6:45pm)    Jeffrey LeFrancois\\nAdoption of Agenda\\nAdoption of Last Month\u2019s Minutes  Lowell D. Kern\\n\\nReports  \\nManhattan Borough President  Brian Lewis\\nLocal Elected Officials  Various \\nDistrict Manager\u2019s Report  Jesse Bodine\\nChair Report/Committee Reports  Lowell D. Kern\\n\\n\\nBusiness License \\u0026 Permits Committee (BLP)\\nItem 01: Letter to SLA re 149 W 14th Street (6/7) \u2013 Chama Mama LLC\\nItem 02: Letter to SLA re 214 10th Avenue (22/23) \u2013 Don Giovanni Ristorante\\nItem 03: Letter to SLA re 180 7th Avenue (22/23) \u2013 Chelsea Pasta LLC\\nItem 04: Letter to SLA re 623 9th Avenue (44) \u2013 Lotus West Corp. d/b/a Pulperia\\n\\nOld/New Business_____________________________________________________________\\nItem 05: Balanced Business Task Force Letter to Mayor and City Council on Small Business Support and Reopening Forum and Recommendations\\nItem 06: Social Justice Working Group Letter to City Council re Oversight Hearing on NYPD Incident on West 45th Street and Black Lives Matter Organizer\\nItem 07: Social Justice Working Group Letter to NYPD re Utilization of Facial Recognition Software\\nItem 08: Letter to DOE re Student Teacher Virtual Learning Initiative\\nItem 09:  Letter to DOE re Security For Open Street School Program \\n \\nNothing to Report\\nArts, Culture, Education, and Street Life (ACES); Chelsea Land Use Committee (CLU); Transportation Planning Committee (TRANS); Waterfront, Parks \\u0026 Environment Committee (WPE); Clinton\\\\Hell\u2019s Kitchen Land Use Committee (CHKLU); Housing, Health \\u0026 Human Services Committee (HHHS); Executive Committee (EXEC)"
+        },
+        "metadata": {
+            "ID": "String",
+            "creationDate": "datetime"
+        },
+        "CommunityBoardInfo": {
+            "communityID": "MCB4",
+            "normalizedName": "Manhattan Community Board 4",
+            "twitterName": "Community Board 4",
+            "youtubeChannelName": "Manhattan Community Board 4",
+            "youtubeChannelURL": "https://www.youtube.com/channel/UCVuHwITcFASNggyVX847NNg",
+            "twitterHandle": "@ManhattanBoard4",
+            "dateCheckLast": "9/18/2020",
+            "status": "live"
+        }
     },
     "properties": {
+        "fillerWordCount": {
+            "uh": 14,
+            "um": 17
+        },
+        "wordCountFullTranscript": {
+            "vote": 7,
+            "police": 5,
+            "letter": 5,
+            "line": 5,
+            "assault": 4,
+            "officer": 4,
+            "resources": 4,
+            "motion": 4,
+            "number": 3,
+            "question": 3
+        },
+        "wordCountSummary": {
+            "officer": 2,
+            "ear": 2,
+            "letter": 2,
+            "assault": 1,
+            "loudspeaker": 1,
+            "lives": 1,
+            "police": 1,
+            "megaphone": 1,
+            "motion": 1,
+            "detail": 1
+        },
         "fullTranscript": "Will there oh no number five according to mayor de Blasio, the police commissioner, did not know about the scale of this arrest operation until well. After it was underway. How can such costly multi-department operations be launched with so little oversight, especially at this time of budget shortfalls? Then the next question would be the new number six, it's the old number seven and it would read to what extent was facial recognition software used to identify mr ingram? How and from where was the data obtained? Then it would read. We understand mr ingram is alleged to have committed an assault by using a loudspeaker directly in an officer's ear during a black lives matter, protest in June, however, the scale of the attempted arrest appears out of proportion to the alleged offense. Indeed, by surrounding mr ingram's apartment building with k-9 units members of the strategic response team and multiple officers and technical gear and closing off the block to traffic. An impression was created of an immediate and great danger to the community hold on these heavy-handed, costly, disproportionate police tactics against a citizen, and our district must be investigated and there must be public accountability for the NYPD. Please confirm that the city council will investigate this shocking incident and address communities concerns expeditiously. Oh, and I guess I should say that instead, at the very beginning it would read to speaker corey johnson, mayor de Blasio and governor Cuomo. Okay, does anyone have any comments, changes to the letter as katie just read it james wallace yeah, just the one line where it said excessive force. I would also add just grease and resources. Do you remember where that was exact sort of second question? Oh yeah line, 19 yeah got that okay. Sorry, without the letter in front of me, do you see it yeah? I don't see excessive for down on 41. You mean right. It was just change that you read. I don't know that it's in the original letter that's okay hold on what did somebody just say? I think it's not a lot he's looking about line 41 at the end about the excessive course. Oh yeah, sorry you're right, I gotcha where we added where we took out totalitarian and we put in excessive and cost and resources. Is that excessive? So we already have it yeah. We have coffee already yeah, we got it. Then james got it was it was much earlier it was. It was in line 20., it's like 20 to 21. It's question three correction: oh the new one, yeah, sorry, sorry! No! I had written it in the chat and james wallace added to it. While she was talking it was earlier. If it's in the chat it didn't make it to katie, though gotta make sure it gets to katie yeah. So I mean I felt like he was adding to mine where it where we had said excessive earlier so and then it said, and you were like and you and it was ex and I said, grossly excessive and then he said costume. What is it something and resources grossly excessive force and resources? That's what it was. Okay and fourth, thank you all right. I've got one more someone texted me and asked me to raise this on their behalf. Okay, as alleged the police officer that had the megaphone put to her ear was injured in this. Do we want to say anything? You know empathizing with the you know the police officer situation at all. Now you know why it came to me and no one wanted to say it out loud I'll, throw it out there I mean. Do we want to acknowledge that in some way that if the act, you know that mr ingram was alleged to have committed, you know actually occurred that we are not. You know, condoning that or any other assault on a new york city, police officer. So we already call it an assault, and we acknowledge that some. If what he's alleged to have done was what he did, then it is an assault right. We use that language and here in line 34.. So all right, that's fine! I'm raising this! I'm raising this. You know because it was asked yeah. No, I was just told it was. It was acknowledged, yes viren. No, it did come up during a sort of back and forth. One of the reasons why we didn't include that is because you know it then goes back to this as reported sort of nonsense. Yeah we didn't want to assume you know what is not directly known to us. That's fine! That's fine! I'm just telling this I was I was asked. I was asked to raise that I raised it. Okay, wait a minute! Wait! A minute! Wait! A minute christine I'd like to make a motion. All right! Hang on! I'm not going to take that. Yet I'm going back to paul devlin because he's going to make the motion because he started it before he tried before and I shut him down. So I'm going to let paul have the honor to madame okay, matt amber he's seated to you. No, I mean I want to make sure I will make the motion, as proposed by lowell, that we accept letter six as amended and written in grand detail and if the as bull recommends a no vote would mean to remand this back to the working group for further discussion and public hearings and letter seven at the same time. Yes, six and seven we're going to do a roll call. You can vote individually on the two letters you can vote yes on six, no on seven! Vice versa. You know, however, you want, but we're going to do a roll call on the two as they now stand. A yes vote is to send these letters. A no vote is to remand them back to the working group and they won't be dealt with until next month. Okay, everyone clear any questions. Any problems, mr noble the floor is yours. All right. Sarah appleton she fell. Asleep is sarah here no move on no christine! Yes, glenn is not here right, leslie, yes, leslie, pagosian, murphy, yes, okay, yes, patricia! Yes, jessica trade, yes, dale corvino! What's going on here right here! Are you to see him? I saw judah, yes, okay, why did you cut yes, paul devlin, yes, table tina, yes to both is pete diaz back no brett furford. I greatly appreciate the conversation and the vastly approved letters, but I'm no one, both oh zora how's there I know you're here she was. Can you hear me there? You are yes on both okay, wendy gonzalez, yes to both dave. Yes, to both frank is not here. Josephine, yes, carrie, yes to both blake; yes, I'm both bird, yes and yes, chris lebron is chris here, no jeffrey, not here right here. Betty yesterday, morgan double yes, sarah mills, yes to both raksha. How did both mike noble yes to six? No to seven jd, yes to six, no to seven maria, yes to both alan ulster? Yes, no brad he's not here rhonda, not here tweet, yes, on six, no on seven, joe, yes to both sabrina yesterday, dolores yes, one six, no on seven brian socal. Yes, sir david selnick, yes to both katie stokes, yes on both get thomason my concerns about process on record, I'm sorry, I didn't catch that kit. Sorry, our two-year-old is asleep. I was saying I think my concerns on process are potentially beating a dead horse, but I think the content overrides here. Yes, thank you! Kid. Okay, yes to both marty tree left. Yes, yeah! Okay, hector vasquez! Yes to both rob walker, yes to both james wallace, yes, on six, no on seven david warren, yes on both leslie williams, yes to both colin wright, yes to both back to low current. Yes on both with permission to explain my vote. I want to thank everyone for their work tonight. This was stupendous. We ended up in a place where, if everyone's not satisfied or comfortable, they at least know they had their voice heard, and I love working with this board for reasons like tonight. So thank you all very much. Yes, this is fun [Laughter]. I will entertain a motion to adjourn. Thank you online vote sheets online vote sheets online vote sheets. I don't want to have to face mike in a dark alley. That way we can say we got out of here before eleven mike. Oh okay, do it now good night, everybody bye, meeting adjourned, reverend we're going we're going. That's all I know right. I have a life to you, bye, everyone, good night, 80, big kudos to you guys seriously. Thank you, but we were not aware of the middle notes at all that. What bearing we weren't aware of the meeting midtown north meeting, I can forward you it's every every month all the precincts have meetings, but midtown north especially has.",
-        "summary": "Protest in June, however, the scale of the attempted arrest appears out of proportion to the alleged offense Indeed by surrounding mr ingram's apartment building with k-9 units members of the strategic response, team and multiple officers and technical gear and closing off the block to traffic An impression was created of an immediate and great danger to the community hold on these heavy-handed, costly, disproportionate police tactics against a citizen, and our district must be investigated, and there must be public accountability for the NYPD, I should say that instead, at the very beginning it would read to speaker corey johnson, mayor de Blasio and governor Cuomo Does anyone have any comments, changes to the letter as katie?"
+        "summary": "Mr ingram is alleged to have committed an assault by using a loudspeaker directly in an officer's ear during a black lives.\nOkay, as alleged the police officer that had the megaphone put to her ear was injured in this.\nNo, I mean I, want to make sure I will make the motion, as proposed by lowell, that we accept letter six as amended and written in grand detail, and if the as bull recommends a no vote would mean to remand this back to the working group for further discussion and public hearings and letter, seven at the same time."
     }
 }

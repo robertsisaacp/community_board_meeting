@@ -24,7 +24,7 @@ if __name__ == "__main__":
             print('Transcript failed!')
             continue
         print('Removing uh any um filler words')
-        meeting = clean_transcript(meeting)
+        meeting, num_filler = clean_transcript(meeting)
 
         if transcript_formatted is False:
             print('Splitting into Sentences, adding punctuation')
@@ -52,10 +52,15 @@ if __name__ == "__main__":
 
         print('Your Community Board transcript is ready!')
 
+        # get word count frequency
+        print('Analyzing most frequent nouns')
+        full_word_count = noun_counter(summary_input, 10)
+        summary_word_count = noun_counter(summary_output, 10)
         # generate json for database
         print('Generating json object')
 
-        make_json(transcript_id, youtube_metadata, cb_metadata, summary_input, summary_output)
+        make_json(transcript_id, youtube_metadata, cb_metadata, summary_input, summary_output, full_word_count,
+                  summary_word_count, num_filler)
         # Add to progress bar
         progress_batch = progress_batch + 1
         total_in_queue = total_in_queue - 1

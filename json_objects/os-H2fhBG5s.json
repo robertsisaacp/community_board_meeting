@@ -1,27 +1,45 @@
 {
-    "YoutubeMetadata": {
-        "author": "MCB5",
-        "channelId": "https://www.youtube.com/channel/UC-qjOBGaBHStwauSQwayM2w",
-        "title": "Part 2 - September 8th",
-        "publishDate": "2020-09-09",
-        "shortDescription": "Part 2 of Manhattan Community Board Five's September 8th, 2020 Executive Committee Meeting.\\n\\nFor Part 1, follow this link:\\nhttps://youtu.be/B_gZUHmwwmc"
-    },
-    "metadata": {
-        "ID": "String",
-        "creationDate": "datetime"
-    },
-    "CommunityBoardInfo": {
-        "communityID": "MCB5",
-        "normalizedName": "Manhattan Community Board 5",
-        "twitterName": "Community Board Five",
-        "youtubeChannelName": "Manhattan Community Board Five",
-        "youtubeChannelURL": "https://www.youtube.com/channel/UC-qjOBGaBHStwauSQwayM2w",
-        "twitterHandle": "@ManhattanCB5",
-        "dateCheckLast": "9/13/2020",
-        "status": "live",
-        "Unnamed: 8": NaN
+    "data": {
+        "YoutubeMetadata": {
+            "author": "MCB5",
+            "channelId": "https://www.youtube.com/channel/UCAzhpt9DmG6PnHXjmJTvRGQ",
+            "title": "Part 2 - September 8th",
+            "publishDate": "2020-09-09",
+            "shortDescription": "Part 2 of Manhattan Community Board Five's September 8th, 2020 Executive Committee Meeting.\\n\\nFor Part 1, follow this link:\\nhttps://youtu.be/B_gZUHmwwmc"
+        },
+        "metadata": {
+            "ID": "String",
+            "creationDate": "datetime"
+        },
+        "CommunityBoardInfo": {
+            "communityID": "MCB5",
+            "normalizedName": "Manhattan Community Board 5",
+            "twitterName": "Community Board Five",
+            "youtubeChannelName": "Manhattan Community Board Five",
+            "youtubeChannelURL": "https://www.youtube.com/channel/UC-qjOBGaBHStwauSQwayM2w",
+            "twitterHandle": "@ManhattanCB5",
+            "dateCheckLast": "9/18/2020",
+            "status": "live"
+        }
     },
     "properties": {
+        "fillerWordCount": {
+            "uh": 0,
+            "um": 0
+        },
+        "wordCountFullTranscript": {
+            "business": 3,
+            "session": 3,
+            "webinar": 1,
+            "vicky": 1,
+            "committee": 1,
+            "motion": 1,
+            "second": 1,
+            "favor": 1,
+            "aye": 1,
+            "meeting": 1
+        },
+        "wordCountSummary": {},
         "fullTranscript": "Okay, we're now being recorded, I'm unlocking the webinar and we're returning to the business session, vicky. Okay, we have just adjourned from our executive session of the executive committee. We are now returning to the business session of the executive committee of cb5, seeing no further business. I need a motion to adjourn move to adjourn and a second all in favor aye. Any opposed okay meeting is adjourned. Thank you. All good night have a good evening. Bye.",
         "summary": ""
     }

@@ -13,6 +13,9 @@ def clean_transcript(text_input):
     filler_words = data.get('filler')
     query_words = text_input.split()
 
+    # count and store number of "um", "uh" that was removed
+    num_filler = {'uh': query_words.count('uh'), 'um': query_words.count('um')}
+
     # check for filler words or for word that repeats in sequence
     remove_dupe_and_filler_words = [word for word, _ in itertools.groupby(query_words) if word not in filler_words]
 
@@ -33,7 +36,7 @@ def clean_transcript(text_input):
     spelling_words = data.get('spelling')
     text_output = [spelling_words[word] if word in spelling_words else word for word in fix_title]
 
-    return ' '.join(text_output)
+    return ' '.join(text_output), num_filler
 
 
 def add_punctuation(text_input, iteration=None):
@@ -55,16 +58,29 @@ def add_punctuation(text_input, iteration=None):
         sentences = p.punctuate(text_input)
     else:
         # remove existing commas
-        text_input = re.sub(r'\.(?!\d)', '', text_input)
-        text_input = re.sub(r'\,(?!\d)', '', text_input)
+        #text_input = re.sub(r'\.(?!\d)', '', text_input)
+        #text_input = re.sub(r'\,(?!\d)', '', text_input)
 
         # remove lingering repeated word
 
         sentences = p.punctuate(text_input)
 
         # fix duplicate punctuation
+        sentences = sentences.replace(' .', '.')
+        sentences = sentences.replace(' :', ':')
+        sentences = sentences.replace(' ,', ',')
+        sentences = sentences.replace(', ,', ',')
+        sentences = sentences.replace(', :', ',')
+        sentences = sentences.replace(', .', ',')
+        sentences = sentences.replace(' ,,', ',')
+        sentences = sentences.replace(',,', ',')
+        sentences = sentences.replace('. .', '.')
+        sentences = sentences.replace('.,', '.')
+        sentences = sentences.replace(',-', '-')
         sentences = sentences.replace('..', '.')
         sentences = sentences.replace('??', '?')
+        sentences = sentences.replace('?,', '?')
+        sentences = sentences.replace(',?', '?')
         sentences = sentences.replace('!!', '!')
         sentences = sentences.replace(':.', ':')
         sentences = sentences.replace(',.', '.')
@@ -74,14 +90,15 @@ def add_punctuation(text_input, iteration=None):
     return sentences
 
 
-def noun_counter(nlp_text):
+def noun_counter(nlp_text, n=None, all_nouns=None):
     """
     Counts number of nouns from raw transcript text, makes dictionary of top words
     returns: Counter object
     """
+    import collections
     import spacy
-    nlp = spacy.load('en_core_web_sm')
 
+    nlp = spacy.load('en_core_web_sm')
     # apply spacy nlp
     doc = nlp(nlp_text)
 
@@ -91,15 +108,21 @@ def noun_counter(nlp_text):
         if token.is_stop != True and token.is_punct != True and token.pos_ == 'NOUN':
             nouns.append(str(token))
 
-    return nouns
+    noun_counter = collections.Counter(nouns)
+    if n is not None:
+        most_common_noun = noun_counter.most_common(n)
+    else:
+        # most_common_noun = list(noun_counter.items())
+        most_common_noun = noun_counter.most_common()
+    # make dictionary and store top n words
+    top_nouns = collections.OrderedDict(most_common_noun)
+    return top_nouns
 
 
 def total_num_word_counter(processed_text):
     """
     Counts number of words
     """
-    import spacy
-
     # remove stopwords and punctuations
     words = [token.text for token in processed_text if token.is_stop != True and token.is_punct != True]
     print(words)
@@ -156,8 +179,10 @@ def phrase_list(text):
                 if nlp.vocab.strings[match_id] in [nlp_list[i]]:
                     important_sentences.append(sent.text)
     # remove duplicate sentences and join
-    all_text = " ".join(list(dict.fromkeys(important_sentences)))
+    all_sents = list(dict.fromkeys(important_sentences))
+    all_sents = [sent.lstrip()[0].capitalize() + sent.lstrip()[1:] for sent in all_sents]
 
+    all_text = " ".join(all_sents)
     return all_text
 
 
