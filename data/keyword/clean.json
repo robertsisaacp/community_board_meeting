@@ -56,7 +56,8 @@
     "hr",
     "ngos",
     "omb",
-    "bsa"
+    "bsa",
+    "irs"
   ],
   "title": [
     "brooklyn",
@@ -88,7 +89,9 @@
     "um",
     "uh",
     "[music]",
-    "[Music]"
+    "[Music]",
+    "[Laughter]",
+    "[laughter]"
   ],
   "spelling": {
     "screenway":"greenway",
@@ -98,6 +101,8 @@
     "conned": "Con Edison",
     "mirrors": "minors",
     "city bike": "CitiBike",
-    "nimbyism": "NIMBY-ism"
+    "nimbyism": "NIMBY-ism",
+    "you, know": "",
+    "put an emotion": "put a motion"
   }
 }
