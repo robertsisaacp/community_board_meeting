@@ -5,22 +5,22 @@
     <img src="images/block_party_logo.png" alt="block party" width="80" height="80">
   </a>
 
-  <h3 align="center">block party</h3>
+  <h3 align="center">Block Party</h3>
   <p align="center">
-    Community Board Meeting Minutes - NLP & Civic Tech
+    <i>Making local policy information accessible and byte-sized</i>
     <br/>
-    <i>A public written record of meeting transcript and summary</i>
     <br/>
-    Sarah Sachs and Brandon Pachucua
+    A public written record of community board meeting transcript and summary.
+    <br/>
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <a href="https://blockparty.emptybox.io/"><strong>Explore transcripts »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">Medium Article</a>
+    <a href="https://medium.com/@sarah_june42/nyc-community-board-meeting-minutes-nlp-civic-tech-8b5d9e4716d9">Medium</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    <a href="https://twitter.com/my_block_party">Twitter</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="mailto:blockparty.meeting@gmail.com?subject = Feedback&body = Message">Request Feature</a>
   </p>
 </p>
 
@@ -43,6 +43,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+<strong>Community Board Meeting Minutes - NLP & Civic Tech</strong>
 
 block party makes local policy information accessible and byte-sized, with a weekly email of your community board’s most recent meeting synopsis and transcript data. 
 
@@ -53,7 +54,7 @@ Here's How:
 * Clean text and add grammar
 * Extract key content and automatically generate summary
 
-### Citations:
+### Built With: 
 
 1. Pull Transcript from Youtube
 
@@ -75,3 +76,17 @@ Here's How:
 
 4. Summarize Text
     https://radimrehurek.com/gensim/summarization/summariser.html
+
+<!-- LICENSE -->
+## License
+
+Distributed under the GPL-3.0 License. See `LICENSE` for more information.
+
+<!-- CONTACT -->
+## Contact
+
+Sarah Sachs: [@sarah_june42](https://twitter.com/sarah_june42) 
+
+Brandon Pachucua  
+
+Project Link: [https://github.com/sarahJune1/community_board_meeting](https://github.com/sarahJune1/community_board_meeting)
