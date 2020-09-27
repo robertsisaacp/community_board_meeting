@@ -57,7 +57,12 @@
     "ngos",
     "omb",
     "bsa",
-    "irs"
+    "irs",
+    "ada",
+    "rpa",
+    "poc",
+    "hcc",
+    "lpc"
   ],
   "title": [
     "brooklyn",
@@ -83,7 +88,8 @@
     "july",
     "october",
     "november",
-    "september"
+    "september",
+    "december"
   ],
   "filler": [
     "um",
