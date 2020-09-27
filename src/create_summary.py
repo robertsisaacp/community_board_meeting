@@ -166,14 +166,16 @@ def make_json(transcript_id, metadata, cb_info, summary_input, summary_output, f
             "YoutubeMetadata": metadata,
             "metadata": {"ID": "String",
                          "creationDate": "datetime"},
-            "CommunityBoardInfo": cb_info},
-        "properties": {
+            "CommunityBoardInfo": cb_info,
+
+            "properties": {
             "fillerWordCount": num_filler,
             "wordCountFullTranscript": full_word_count,
             "wordCountSummary": summary_word_count,
             "fullTranscript": summary_input,
             "summary": summary_output}
-    }
+            }
+        }
     out_file = open(f"{json_folder_path}//{transcript_id}.json", "w")
     json.dump(output_json, out_file, indent=4, sort_keys=False)
     out_file.close()

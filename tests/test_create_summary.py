@@ -35,5 +35,5 @@ def test_get_cb_info_nan():
     assert communityID == None
 
 def test_make_json():
-    output_json = make_json('hi', 'there', 'good', 'sir')
+    output_json = make_json('hi', 'there', 'good', 'sir', 'how', 'are', 'you', 'good!')
     assert output_json == 'QCB3'

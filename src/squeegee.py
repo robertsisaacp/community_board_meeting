@@ -82,6 +82,7 @@ def add_punctuation(text_input, iteration=None):
         sentences = sentences.replace('?,', '?')
         sentences = sentences.replace(',?', '?')
         sentences = sentences.replace('!!', '!')
+        sentences = sentences.replace('::', ':')
         sentences = sentences.replace(':.', ':')
         sentences = sentences.replace(',.', '.')
         sentences = sentences.replace(':,', ',')
@@ -135,9 +136,25 @@ def phrase_maker():
     """read in list from nlp_matcher.json object"""
     import json
 
+    # read in nlp_matcher json object to add to list
     with open('../data/keyword/nlp_matcher.json') as f:
-        data = json.load(f)
+        nlp_matcher = json.load(f)
 
+    # read in clean json object to add capitalization words
+    with open('../data/keyword/clean.json') as f:
+        clean_json = json.load(f)
+
+    get_clean_content = {}
+    # get all capitalized words
+    for i in clean_json['capital']:
+        get_clean_content['capital'] = [word.upper() for word in clean_json['capital']]
+
+    # get all title words
+    for i in clean_json['title']:
+        get_clean_content['title'] = [word.title() for word in clean_json['title']]
+
+    # append to nlp_matcher
+    data = dict(list(get_clean_content.items()) + list(nlp_matcher.items()))
     return data
 
 

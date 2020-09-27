@@ -21,13 +21,14 @@ def test_noun_counter():
 
 
 def test_phrase_list():
-    text = "It is extremely difficult for the seniors and disabled. This sentence is not relevant."
+    text = "It is extremely difficult for the seniors and disabled. This sentence is not relevant. Mayor De Blasio did" \
+           " this."
     text1 = "The. Very next thing is in by January 16th of every year the mayor drafts a financial plan and the " \
             "preliminary budget once he drafts the So in february you're going to see you know the agencies start to " \
             "respond to our request and by the 15th."
     important_sentence = phrase_list(text)
     important_sentence1 = phrase_list(text1)
-    assert important_sentence == 'It is extremely difficult for the seniors and disabled.'
+    assert important_sentence == 'It is extremely difficult for the seniors and disabled. Mayor De Blasio did this.'
     assert important_sentence1 == "Very next thing is in by January 16th of every year the mayor drafts a financial " \
                                   "plan and the " \
                                   "preliminary budget once he drafts the So in february you're going to see you know " \
@@ -46,7 +47,7 @@ def test_phrase_list_more_robust():
 
 def test_phrase_maker():
     all_output = phrase_maker()
-    test_output = all_output.get('parks')[0]
+    test_output = all_output.get('capital')[0]
     assert test_output == "park"
 
 
