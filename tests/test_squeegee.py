@@ -22,13 +22,13 @@ def test_noun_counter():
 
 def test_phrase_list():
     text = "It is extremely difficult for the seniors and disabled. This sentence is not relevant. Mayor De Blasio did" \
-           " this."
+           " this. Now we have it covered from soup-to-nuts."
     text1 = "The. Very next thing is in by January 16th of every year the mayor drafts a financial plan and the " \
             "preliminary budget once he drafts the So in february you're going to see you know the agencies start to " \
             "respond to our request and by the 15th."
     important_sentence = phrase_list(text)
     important_sentence1 = phrase_list(text1)
-    assert important_sentence == 'It is extremely difficult for the seniors and disabled. Mayor De Blasio did this.'
+    assert important_sentence == 'It is extremely difficult for the seniors and disabled. Mayor De Blasio did this.  Now we have it covered from soup-to-nuts.'
     assert important_sentence1 == "Very next thing is in by January 16th of every year the mayor drafts a financial " \
                                   "plan and the " \
                                   "preliminary budget once he drafts the So in february you're going to see you know " \
@@ -84,8 +84,12 @@ def test_clean_transcript_title():
 
 def test_clean_transcript_spelling():
     text = "screenway um testing testing testing 1,2,3"
-    clean_text = clean_transcript(text)
-    assert clean_text == 'greenway testing 1,2,3'
+    souped = "because it's a nice, diverse range of resources and programs, souped nuts, from individuals on the street"
+    clean_text = clean_transcript(text)[0]
+    clean_soup = clean_transcript(souped)[0]
+    assert clean_text == "greenway testing 1,2,3"
+    assert clean_soup == "because it's a nice, diverse range of resources and programs, soup-to-nuts, " \
+                         "from individuals on the street "
 
 
 def test_add_punctuation():
