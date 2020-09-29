@@ -62,7 +62,12 @@
     "rpa",
     "poc",
     "hcc",
-    "lpc"
+    "lpc",
+    "stem",
+    "steam",
+    "ela",
+    "cuny",
+    "suny"
   ],
   "title": [
     "brooklyn",
@@ -86,10 +91,15 @@
     "march",
     "april",
     "july",
+    "february",
     "october",
     "november",
     "september",
-    "december"
+    "december",
+    "macy's",
+    "wisconsin",
+    "hampshire",
+    "albany"
   ],
   "filler": [
     "um",
@@ -109,6 +119,7 @@
     "city bike": "CitiBike",
     "nimbyism": "NIMBY-ism",
     "you, know": "",
-    "put an emotion": "put a motion"
+    "put an emotion": "put a motion",
+    "souped nuts": "soup-to-nuts"
   }
 }
