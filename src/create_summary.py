@@ -30,10 +30,22 @@ def get_cb_info(cb_name):
     cb_id_file = os.path.join(cb_id_path, 'CB_ID.csv')
     cb_id_df = pd.read_csv(cb_id_file)
 
-    # match column of youtubeChannelName, get cb_id
-    cb_info = \
-    cb_id_df[cb_id_df['youtubeChannelName'] == cb_name].where(cb_id_df.notnull(), None).to_dict(orient="records")[0]
-
+    try:
+        # match column of youtubeChannelName, get cb_id
+        cb_info = \
+        cb_id_df[cb_id_df['youtubeChannelName'] == cb_name].where(cb_id_df.notnull(), None).to_dict(orient="records")[0]
+    except IndexError:
+        print('CB ID not found!')
+        cb_info ={
+            "communityID": "Other",
+            "normalizedName": "Other",
+            "twitterName": "",
+            "youtubeChannelName": "",
+            "youtubeChannelURL": "",
+            "twitterHandle": "",
+            "dateCheckLast": "",
+            "status": ""
+        }
     return cb_info
 
 
@@ -97,14 +109,14 @@ def get_transcript(video_id):
 
     # if there is already a semicolon in the raw text, the video was formatted differently
     formatted = False
-    if ':' not in transcript_text[0]:
-        transcript_output = " ".join("{}".format(line) for line in transcript_text)
+    if ',' not in transcript_text[0]:
+        transcript_output = " ".join(f"{line}" for line in transcript_text)
 
     # if captions already formatted, we do not want to add punctuation
-    if ':' in transcript_text[0]:
+    if ',' in transcript_text[0]:
         formatted = True
         print("Transcript already formatted")
-        transcript_text = [line.split(': ')[-1:] for line in transcript_text]
+        transcript_text = [line.lower().split(': ')[-1:] for line in transcript_text]
         transcript_text = list(itertools.chain.from_iterable(transcript_text))
         transcript_output = " ".join(transcript_text)
 
