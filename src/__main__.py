@@ -33,7 +33,6 @@ if __name__ == "__main__":
         else:
             # if already formatted, just keep as is
             print('Already split into sentences, transcript aggregated')
-            print('Found one example without punctuation, so adding Punctuation')
             summary_input = meeting
 
         print('Filter to sentences with key content first time')
