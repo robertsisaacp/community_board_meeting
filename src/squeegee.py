@@ -48,7 +48,7 @@ def add_punctuation(text_input, iteration=None):
     @param text_input:
     @param iteration: if True, then remove the commas to re-ad
     """
-    import re
+    # import re
     from punctuator import Punctuator
 
     # import default pre-trained model from punctuator
@@ -58,8 +58,8 @@ def add_punctuation(text_input, iteration=None):
         sentences = p.punctuate(text_input)
     else:
         # remove existing commas
-        #text_input = re.sub(r'\.(?!\d)', '', text_input)
-        #text_input = re.sub(r'\,(?!\d)', '', text_input)
+        # text_input = re.sub(r'\.(?!\d)', '', text_input)
+        # text_input = re.sub(r'\,(?!\d)', '', text_input)
 
         # remove lingering repeated word
 
@@ -87,9 +87,12 @@ def add_punctuation(text_input, iteration=None):
         sentences = sentences.replace('!!', '!')
         sentences = sentences.replace('::', ':')
         sentences = sentences.replace(':.', ':')
+        sentences = sentences.replace(',:', ',')
         sentences = sentences.replace(',.', '.')
         sentences = sentences.replace(':,', ',')
         sentences = sentences.replace('-,', ',')
+        sentences = sentences.replace('.-', '.')
+        sentences = sentences.replace(': ,', ':')
 
     return sentences
 
@@ -113,6 +116,21 @@ def noun_counter(nlp_text, n=None, all_nouns=None):
             nouns.append(str(token))
 
     noun_counter = collections.Counter(nouns)
+
+    # remove the vague words
+    vague_words = ['organizations', 'priorities', 'point', 'points', 'letters', 'community', 'area', 'issues', 'lot', 'meeting',
+                   'district', 'issue', 'people', 'application', 'process', 'applicants', 'process', 'comments',
+                   'committee', 'committees', 'things', 'thing', 'members', 'office', 'letter', 'board', 'city', 'time', 'borough',
+                   'question', 'way', 'application', 'resolution', 'questions', 'year', 'site', 'number', 'folks',
+                   'support', 'group', 'sort', 'recommendations', 'recommendation', 'items', 'co', 'a.m.', 'p.m.',
+                   "A.M.", "P.M.", "districts", "use", "presentation", "tonight", "majority", "meetings", "discussion",
+                   "couple", "hand", "hands", "stuff"]
+    vague_counter = collections.Counter()
+    for i in vague_words:
+        value = noun_counter.get(i)
+        vague_counter[i] = value
+        noun_counter.pop(i, None)
+    [print(f"Removing {i[0]} from top words") for i in vague_counter.items() if i[1] is not None]
     if n is not None:
         most_common_noun = noun_counter.most_common(n)
     else:

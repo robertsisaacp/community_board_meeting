@@ -29,6 +29,12 @@ def test_get_cb_info_simple():
     assert communityID == 'QCB13'
 
 
+def test_get_cb_info_notaCB():
+    communityID_dict = get_cb_info('CNBC Television')
+    communityID = communityID_dict.get('communityID')
+    assert communityID == 'Other'
+
+
 def test_get_cb_info_nan():
     communityID_dict = get_cb_info('Queens Community Board Thirteen')
     communityID = communityID_dict.get('twitterHandle')
