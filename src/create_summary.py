@@ -1,3 +1,5 @@
+from src.squeegee import *
+
 def get_video_list():
     """
     call csv file of url
@@ -33,10 +35,11 @@ def get_cb_info(cb_name):
     try:
         # match column of youtubeChannelName, get cb_id
         cb_info = \
-        cb_id_df[cb_id_df['youtubeChannelName'] == cb_name].where(cb_id_df.notnull(), None).to_dict(orient="records")[0]
+            cb_id_df[cb_id_df['youtubeChannelName'] == cb_name].where(cb_id_df.notnull(), None).to_dict(
+                orient="records")[0]
     except IndexError:
         print('CB ID not found!')
-        cb_info ={
+        cb_info = {
             "communityID": "Other",
             "normalizedName": "Other",
             "twitterName": "",
@@ -47,6 +50,16 @@ def get_cb_info(cb_name):
             "status": ""
         }
     return cb_info
+
+
+def convert_seconds(seconds):
+    seconds = seconds % (24 * 3600)
+    hour = seconds // 3600
+    seconds %= 3600
+    minutes = seconds // 60
+    seconds %= 60
+
+    return "%d:%02d:%02d" % (hour, minutes, seconds)
 
 
 def get_video_metadata(transcript_id):
@@ -71,8 +84,9 @@ def get_video_metadata(transcript_id):
     title = re.findall(r'"title":"[^>]*",', response)[0].split(',')[0]
     date = re.findall(r'"publishDate":"[^>]*",', response)[0].split('",')[0]
     description = re.findall(r'"shortDescription":"[^>]*",', response)[0].split('",')[0]
+    length = re.findall(r'"lengthSeconds":"[^>]*",', response)[0].split('",')[0]
 
-    metadata = [cb, channel_link, title, date, description]
+    metadata = [cb, channel_link, title, date, description, length]
     print(metadata)
 
     # make dictionary from metadata values
@@ -81,6 +95,9 @@ def get_video_metadata(transcript_id):
         if ':' in sub:
             metadata_list.append(map(str.strip, sub.replace('"', '').split(':', 1)))
     metadata_dict = dict(metadata_list)
+
+    # convert length seconds into datetime format
+    metadata_dict['lengthSeconds'] = convert_seconds(int(metadata_dict.get('lengthSeconds')))
 
     # get cb_info
     cb_info = get_cb_info(metadata_dict.get('author'))
@@ -181,13 +198,16 @@ def make_json(transcript_id, metadata, cb_info, summary_input, summary_output, f
             "CommunityBoardInfo": cb_info,
 
             "properties": {
-            "fillerWordCount": num_filler,
-            "wordCountFullTranscript": full_word_count,
-            "wordCountSummary": summary_word_count,
-            "fullTranscript": summary_input,
-            "summary": summary_output}
-            }
+                "videoURL": transcript_id,
+                "fillerWordCount": num_filler,
+                "readTimeFullTranscript": str(text_length(summary_input)),
+                "readTimeSummary": str(text_length(summary_output)),
+                "wordCountFullTranscript": full_word_count,
+                "wordCountSummary": summary_word_count,
+                "fullTranscript": summary_input,
+                "summary": summary_output}
         }
+    }
     out_file = open(f"{json_folder_path}//{transcript_id}.json", "w")
     json.dump(output_json, out_file, indent=4, sort_keys=False)
     out_file.close()

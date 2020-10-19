@@ -9,7 +9,7 @@ if __name__ == "__main__":
     total_in_queue = len(all_ids)
     for i in range(len(all_ids)):
         print("Progress: ")
-        print(f'{progress_batch} ids processed, out of {len(all_ids)} Community Board meetings queued')
+        print(f'{progress_batch} ids processed, out of {total_in_queue} Community Board meetings queued')
         print(f'{total_in_queue} ids in queue')
         print(f'Obtaining transcript {all_ids[i]}')
         transcript_id = all_ids[i]
@@ -63,3 +63,9 @@ if __name__ == "__main__":
         # Add to progress bar
         progress_batch = progress_batch + 1
         total_in_queue = total_in_queue - 1
+
+    if total_in_queue != 0:
+        print(f"Left {total_in_queue} ids in queue:")
+        print(all_ids)
+    else:
+        print('All ids processed')
