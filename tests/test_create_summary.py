@@ -40,6 +40,7 @@ def test_get_cb_info_nan():
     communityID = communityID_dict.get('twitterHandle')
     assert communityID == None
 
+
 def test_make_json():
     output_json = make_json('hi', 'there', 'good', 'sir', 'how', 'are', 'you', 'good!')
     assert output_json == 'QCB3'

@@ -1,10 +1,55 @@
+def proper_noun_capitalizer(input_text):
+    """
+    Leverage spaCy's tokenizer to understand part of speech to capitalize any proper noun
+    @param input_text:
+    @return:
+    """
+    import spacy
+    import re
+    # Create the nlp object
+    nlp = spacy.load("en_core_web_sm")
+    doc = nlp(input_text)
+
+    # if word all lowercase and identified as a proper noun by spacy, make into title case
+    token_texts = " ".join([tok.text.title() if tok.pos_ == "PROPN" and tok.text.islower()
+                            else tok.text for tok in doc])
+
+    # fix spacing if not whitespace
+    output = re.sub(r' (?=\W)', '', token_texts)
+
+    # replace conjunction split by spacy with not
+    output = output.replace("n't", 'not')
+    output = output.replace("ca not", "can't")
+    output = output.replace("wo not", "won't")
+    # replace split of gon na
+    output = output.replace("gon na", 'going to')
+    return output
+
+
+def fix_time(input_string):
+    """
+    Formats any time string that is missing a colon
+    @param input_string:
+    @return:
+    """
+    import re
+
+    # regexp pattern to match on (12 30)
+    ptrn = "\\s(\\d{1,2})\\s(\\d{1,2})\\s"
+    output = re.sub(fr'{ptrn}', fr' \1:\2 ', input_string)
+
+    return output
+
+
 def clean_transcript(text_input):
     """
-    Removes filler words from transcript and any repeat words
+    Removes filler words from transcript and any repeat words, fixes spelling errors and adds capitalization that is
+    previously hard coded. Also formats any time strings.
     :return:
     """
     import itertools
     import json
+    import re
 
     with open('../data/keyword/clean.json') as f:
         data = json.load(f)
@@ -32,11 +77,20 @@ def clean_transcript(text_input):
     title_words = data.get('title')
     fix_title = [word.title() if word in title_words else word for word in fix_capitalization]
 
+    # join all text
+    fix_title = ' '.join(fix_title)
+
     # fix spelling
     spelling_words = data.get('spelling')
-    text_output = [spelling_words[word] if word in spelling_words else word for word in fix_title]
+    regex = re.compile("|".join(map(re.escape, spelling_words.keys())))
+    text_output = regex.sub(lambda match: spelling_words[match.group(0)], fix_title)
 
-    return ' '.join(text_output), num_filler
+    # capitalize proper nouns
+    text_output = proper_noun_capitalizer(text_output)
+
+    # fix time string formatting
+    text_output = fix_time(text_output)
+    return text_output, num_filler
 
 
 def add_punctuation(text_input, iteration=None):
@@ -69,6 +123,7 @@ def add_punctuation(text_input, iteration=None):
         sentences = sentences.replace(' .', '.')
         sentences = sentences.replace(' :', ':')
         sentences = sentences.replace(' ,', ',')
+        sentences = sentences.replace('  ,', ',')
         sentences = sentences.replace(', ,', ',')
         sentences = sentences.replace(', :', ',')
         sentences = sentences.replace(', .', ',')
@@ -97,6 +152,12 @@ def add_punctuation(text_input, iteration=None):
     return sentences
 
 
+def text_length(text_input):
+    import readtime
+    length = readtime.of_text(text_input)
+    return length
+
+
 def noun_counter(nlp_text, n=None, all_nouns=None):
     """
     Counts number of nouns from raw transcript text, makes dictionary of top words
@@ -118,9 +179,11 @@ def noun_counter(nlp_text, n=None, all_nouns=None):
     noun_counter = collections.Counter(nouns)
 
     # remove the vague words
-    vague_words = ['organizations', 'priorities', 'point', 'points', 'letters', 'community', 'area', 'issues', 'lot', 'meeting',
+    vague_words = ['organizations', 'priorities', 'point', 'points', 'letters', 'community', 'area', 'issues', 'lot',
+                   'meeting',
                    'district', 'issue', 'people', 'application', 'process', 'applicants', 'process', 'comments',
-                   'committee', 'committees', 'things', 'thing', 'members', 'office', 'letter', 'board', 'city', 'time', 'borough',
+                   'committee', 'committees', 'things', 'thing', 'members', 'office', 'letter', 'board', 'city', 'time',
+                   'borough',
                    'question', 'way', 'application', 'resolution', 'questions', 'year', 'site', 'number', 'folks',
                    'support', 'group', 'sort', 'recommendations', 'recommendation', 'items', 'co', 'a.m.', 'p.m.',
                    "A.M.", "P.M.", "districts", "use", "presentation", "tonight", "majority", "meetings", "discussion",
@@ -203,21 +266,19 @@ def phrase_list(text):
     # apply nlp model
     processed_text = nlp(text)
 
-    """# add top words from document if not already in nlp_matcher list
-    doc_top_nouns = total_num_word_counter()
-
-    noun_words = [nlp(text) for text in doc_top_nouns.keys()]
-    phrase_matcher.add('top_noun', None, *noun_words)"""
-
     # match on processed text
     important_sentences = []
     for sent in processed_text.sents:
         for match_id, start, end in phrase_matcher(nlp(sent.text)):
-            for i in range(len(nlp_list)):
-                if nlp.vocab.strings[match_id] in [nlp_list[i]]:
-                    important_sentences.append(sent.text)
+            if sent.text not in important_sentences:
+                for i in range(len(nlp_list)):
+                    if nlp.vocab.strings[match_id] in [nlp_list[i]]:
+                        important_sentences.append(sent.text)
+            else:
+                continue
     # remove duplicate sentences and join
-    all_sents = list(dict.fromkeys(important_sentences))
+    #all_sents = list(dict.fromkeys(important_sentences))
+    all_sents = important_sentences
     all_sents = [sent.lstrip()[0].capitalize() + sent.lstrip()[1:] for sent in all_sents]
 
     all_text = " ".join(all_sents)

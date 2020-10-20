@@ -110,3 +110,26 @@ def test_iterate_summary_input():
         summary = data.get('properties').get('summary')
         important_sentence = iterate_summary_input(summary)
     assert important_sentence == 'It is extremely difficult for the seniors and disabled.'
+
+
+def test_proper_noun_capitalizer():
+    import json
+    with open(f'../json_objects/Mu_rYVwkOVw.json') as jsonfile:
+        data = json.load(jsonfile)
+        summary = data.get('data').get('properties').get('summary')
+        summary = summary[:2000]
+        important_sentence = proper_noun_capitalizer(summary)
+    assert important_sentence == 'It is extremely difficult for the seniors and disabled.'
+
+
+def test_proper_noun_capitalizer_dont():
+    test = "There can't be more people impact with more seniors impacted, I'm gonna work it in Okay, number two priority was to increase substance abuse services, including opioid, Overdose, prevention, education and funding for syringe, cleanups and collections."
+    summary = "There are so many people that we really need to do the right thing, for, and that really means to stay home if you're, sick, we're face covering when you're in public really do n't gather in large crowds with people who are not your immediate family members, because we're seeing that this is as a result of this behavior we're seeing significant increases in cases, and We want everyone to go, get tested so that the data is as accurate as possible, and the reason why we want people to get tested is so that we can really go and mitigate and prevent these clusters from spreading into larger community transmission and where we have to revert back to the beginning of this pandemic."
+    important_sentence = proper_noun_capitalizer(test)
+    assert important_sentence == 'It is extremely difficult for the seniors and disabled.'
+
+
+def test_fix_time():
+    test = "What is starting to make parents unhappy is seeing the Brooklyn tech model which is their two full days from 8 30 to like 2 45 in schools like one week and period class and leave their house at 10 of noon"
+    important_sentence = fix_time(test)
+    assert important_sentence == 'It is extremely difficult for the seniors and disabled.'
