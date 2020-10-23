@@ -5,7 +5,8 @@
             "channelId": "https://www.youtube.com/channel/UC-qjOBGaBHStwauSQwayM2w",
             "title": "September 14th",
             "publishDate": "2020-09-14",
-            "shortDescription": ""
+            "shortDescription": "",
+            "lengthSeconds": "0:05:56"
         },
         "metadata": {
             "ID": "String",
@@ -18,36 +19,37 @@
             "youtubeChannelName": "Manhattan Community Board Five",
             "youtubeChannelURL": "https://www.youtube.com/channel/UC-qjOBGaBHStwauSQwayM2w",
             "twitterHandle": "@ManhattanCB5",
-            "dateCheckLast": "9/18/2020",
+            "dateCheckLast": "10/8/2020",
             "status": "live"
+        },
+        "properties": {
+            "videoURL": "Fak09Cihzbs",
+            "fillerWordCount": {
+                "uh": 2,
+                "um": 1
+            },
+            "readTimeFullTranscript": "2 min read",
+            "readTimeSummary": "1 min read",
+            "wordCountFullTranscript": {
+                "session": 9,
+                "emergency": 7,
+                "craig": 3,
+                "order": 3,
+                "business": 3,
+                "quorum": 2,
+                "evening": 2,
+                "law": 2,
+                "employment": 2,
+                "person": 2
+            },
+            "wordCountSummary": {
+                "motion": 1,
+                "emergency": 1,
+                "order": 1,
+                "session": 1
+            },
+            "fullTranscript": "How do you do hi everyone we're waiting to see if we have a quorum craig? Are you on? I do not think he is yet. Okay, craig is on okay, we need 26, we have 33 and I think that, and that gives us our quorum. Even if we have public members on craig, you want to check that. To be sure we do yes, okay, great okay, everyone good evening, I'd like to call this emergency meeting of CB5 to order, and this evening we have an unusual circumstance which I'd like to take a moment to explain, especially since the number of people of the public signed up to speak. This is not a regular meeting of the board, but rather an emergency meeting that is being called for the sole purpose of holding an executive session and according to the open meetings law, among other reasons, a close executive session may be called in order to discuss employment of a particular person. So only members of the board are allowed to attend this part of the meeting the executive session. There is no other business scheduled for the emergency meeting and the procedure, as outlined in the open meetings law, is that a motion must be made to enter into exec meeting from an open meeting of the board, which is why we had to schedule this emergency meeting of the full board in order to move into executive session. So once we're in executive session at the end of any discussion and or voting, the exact session is adjourned, and then we return to the full board emergency meeting and having no further scheduled business. The emergency meeting of the board is immediately adjourned. Again, there is no agenda, no business for the full board other than the executive session, and therefore there is no public session. So anyone who has signed up to speak, please see our website for our committee meetings for the coming month and for the full board which is being held on October 9th. I think 8th and please plan to virtually attend any of our meetings as scheduled on our website. We apologize for any confusion or misunderstanding of this unusual emergency meeting and look forward to your participation during the coming months. Agendas. May I have a motion to enter into executive sessions for the full board of CB5 in order to discuss the employment of a particular person and the second okay. So now we are in executive session, so all non- members of the board will be dropped from attending and again we thank you and look forward to seeing you at our regularly scheduled meetings for the month.",
+            "summary": "Law, is that a motion must be made to enter into exec meeting from an open meeting of the board, which is why we had to schedule this emergency meeting of the full board in order to move into executive session."
         }
-    },
-    "properties": {
-        "fillerWordCount": {
-            "uh": 2,
-            "um": 1
-        },
-        "wordCountFullTranscript": {
-            "meeting": 11,
-            "board": 10,
-            "session": 9,
-            "emergency": 7,
-            "meetings": 5,
-            "craig": 3,
-            "members": 3,
-            "order": 3,
-            "business": 3,
-            "quorum": 2
-        },
-        "wordCountSummary": {
-            "meeting": 3,
-            "board": 2,
-            "motion": 1,
-            "emergency": 1,
-            "order": 1,
-            "session": 1
-        },
-        "fullTranscript": "How do you do hi everyone we're waiting to see if we have a quorum craig? Are you on? I don't think he is yet. Okay, craig is on okay, we need 26, we have 33 and I think that, and that gives us our quorum. Even if we have public members on craig, you want to check that. To be sure we do yes, okay, great okay, everyone good evening, I'd like to call this emergency meeting of cb5 to order, and this evening we have an unusual circumstance which I'd like to take a moment to explain, especially since the number of people of the public signed up to speak. This is not a regular meeting of the board, but rather an emergency meeting that is being called for the sole purpose of holding an executive session and according to the open meetings law, among other reasons, a close executive session may be called in order to discuss employment of a particular person. So only members of the board are allowed to attend this part of the meeting the executive session. There is no other business scheduled for the emergency meeting and the procedure, as outlined in the open meetings law, is that a motion must be made to enter into exec meeting from an open meeting of the board, which is why we had to schedule this emergency meeting of the full board in order to move into executive session. So once we're in executive session at the end of any discussion and or voting, the exact session is adjourned, and then we return to the full board emergency meeting and having no further scheduled business. The emergency meeting of the board is immediately adjourned. Again, there is no agenda, no business for the full board other than the executive session, and therefore there is no public session. So anyone who has signed up to speak, please see our website for our committee meetings for the coming month and for the full board which is being held on October 9th. I think 8th and please plan to virtually attend any of our meetings as scheduled on our website. We apologize for any confusion or misunderstanding of this unusual emergency meeting and look forward to your participation during the coming months. Agendas. May I have a motion to enter into executive sessions for the full board of cb5 in order to discuss the employment of a particular person and the second okay. So now we are in executive session, so all non-members of the board will be dropped from attending and again we thank you and look forward to seeing you at our regularly scheduled meetings for the month.",
-        "summary": "Law, is that a motion must be made to enter into exec meeting from an open meeting of the board, which is why we had to schedule this emergency meeting of the full board in order to move into executive session."
     }
 }

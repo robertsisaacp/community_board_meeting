@@ -28,15 +28,19 @@ def proper_noun_capitalizer(input_text):
 
 def fix_time(input_string):
     """
-    Formats any time string that is missing a colon
+    Formats any time string that is missing a colon, adds , to number
     @param input_string:
     @return:
     """
     import re
 
-    # regexp pattern to match on (12 30)
+    # regexp pattern to match on (ex: 12 30)
     ptrn = "\\s(\\d{1,2})\\s(\\d{1,2})\\s"
     output = re.sub(fr'{ptrn}', fr' \1:\2 ', input_string)
+
+    # regexp pattern to match on thousand (12 300)
+    ptrn = "\\s(\\d{1,3})\\s(\\d{1,3})\\s"
+    output = re.sub(fr'{ptrn}', fr' \1,\2 ', output)
 
     return output
 
@@ -128,11 +132,9 @@ def add_punctuation(text_input, iteration=None):
         sentences = sentences.replace(', :', ',')
         sentences = sentences.replace(', .', ',')
         sentences = sentences.replace(' ,,', ',')
-        sentences = sentences.replace(',,', ',')
         sentences = sentences.replace('. .', '.')
         sentences = sentences.replace('.,', '.')
         sentences = sentences.replace(',-', '-')
-        sentences = sentences.replace('..', '.')
         sentences = sentences.replace('??', '?')
         sentences = sentences.replace('?,', '?')
         sentences = sentences.replace(',?', '?')
@@ -140,14 +142,18 @@ def add_punctuation(text_input, iteration=None):
         sentences = sentences.replace('?.', '?')
         sentences = sentences.replace('.?', '?')
         sentences = sentences.replace('!!', '!')
+        sentences = sentences.replace(',!', '!')
         sentences = sentences.replace('::', ':')
         sentences = sentences.replace(':.', ':')
         sentences = sentences.replace(',:', ',')
         sentences = sentences.replace(',.', '.')
         sentences = sentences.replace(':,', ',')
+        sentences = sentences.replace(',;', ';')
         sentences = sentences.replace('-,', ',')
         sentences = sentences.replace('.-', '.')
         sentences = sentences.replace(': ,', ':')
+        sentences = sentences.replace('..', '.')
+        sentences = sentences.replace(',,', ',')
 
     return sentences
 

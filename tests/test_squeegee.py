@@ -130,6 +130,6 @@ def test_proper_noun_capitalizer_dont():
 
 
 def test_fix_time():
-    test = "What is starting to make parents unhappy is seeing the Brooklyn tech model which is their two full days from 8 30 to like 2 45 in schools like one week and period class and leave their house at 10 of noon"
+    test = "Brooklyn bridge, and you know we have about 200 200 by 250 officers. What is starting to make parents unhappy is seeing the Brooklyn tech model which is their two full days from 8 30 to like 2 45 in schools like one week and period class and leave their house at 10 of noon"
     important_sentence = fix_time(test)
     assert important_sentence == 'It is extremely difficult for the seniors and disabled.'
