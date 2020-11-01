@@ -4,6 +4,8 @@ from src.squeegee import *
 if __name__ == "__main__":
     # Call in list of url strings from csv file
     all_ids = get_video_list()
+    print(all_ids)
+    processed_ids = []
     print(f'Getting transcripts for {len(all_ids)} Community Board meetings')
     progress_batch = 0
     total_in_queue = len(all_ids)
@@ -18,7 +20,7 @@ if __name__ == "__main__":
         try:
             meeting, transcript_formatted = get_transcript(transcript_id)
             print('Transcript obtained!')
-
+            processed_ids.append(transcript_id)
         except Exception as e:
             print("Oops!", e.__class__, "occurred.")
             print('Transcript failed!')
@@ -35,17 +37,22 @@ if __name__ == "__main__":
             print('Already split into sentences, transcript aggregated')
             summary_input = meeting
 
+        print("Get phrase_list:")
+        phrase_list_intermediary_summary = phrase_maker()
         print('Filter to sentences with key content first time')
-        key_sentences = phrase_list(summary_input)
+        key_sentences = phrase_list(summary_input, phrase_list_intermediary_summary)
 
         print('Filter to sentences with key content second time')
-        key_sentences = iterate_summary_input(key_sentences)
+        key_sentences = iterate_summary_input(key_sentences, phrase_list_intermediary_summary)
 
         print('Sentences ready for Summarization.')
         # summarization
         ratio_of_transcript = .10
-        summary_output = summarize_text(key_sentences, ratio_of_transcript)
-        print('Saving file output')
+        try:
+            summary_output = summarize_text(key_sentences, ratio_of_transcript)
+            print('Saving file output')
+        except ValueError:
+            summary_output = ""
         youtube_metadata, cb_metadata = get_video_metadata(transcript_id)
         output_transcript(transcript_id, summary_input, summary_output, ratio_of_transcript, youtube_metadata)
 
@@ -66,6 +73,6 @@ if __name__ == "__main__":
 
     if total_in_queue != 0:
         print(f"Left {total_in_queue} ids in queue:")
-        print(all_ids)
+        print(list(set(all_ids) ^ set(processed_ids)))
     else:
-        print('All ids processed')
+        print('All ids processed.')

@@ -151,7 +151,7 @@ def summarize_text(text_input=None, ratio_input=None, word_count=None):
     """
     from gensim.summarization import summarize
 
-    summary = summarize(text_input, ratio=ratio_input)
+    summary = summarize(text_input, ratio=ratio_input, word_count=word_count)
     return summary
 
 
