@@ -16,7 +16,7 @@ def analyze_week():
 
 def get_collection(collection_name):
     import pymongo
-    client_address = "mongodb+srv://sarah:FPb9QGT9UexUim7@block-party.099ce.mongodb.net/community-board?retryWrites=true&w=majority"
+    client_address = "key"
     # establish connection to database
     client = pymongo.MongoClient(client_address)
     # access the database by making an instance

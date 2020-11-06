@@ -2,4 +2,4 @@
 /data/info
 /notebooks/.ipynb_checkpoints
 .vscode
-src/topics_machine.py
+/src/topics_machine.py
