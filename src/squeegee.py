@@ -155,7 +155,9 @@ def add_punctuation(text_input, iteration=None):
         sentences = sentences.replace('..', '.')
         sentences = sentences.replace(',,', ',')
         sentences = sentences.replace('-, ', '-')
-        sentences = sentences.replace('- ', '-')
+        sentences = sentences.replace(' - ', '-')
+        sentences = sentences.replace(', , ', ', ')
+        sentences = sentences.replace(' , ', ', ')
     return sentences
 
 

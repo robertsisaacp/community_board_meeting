@@ -33,9 +33,11 @@
     "co vid",
     "kovic",
     "kovan",
-    "cobid"
+    "cobid",
+    "kobe"
   ],
   "capital": [
+    "usps",
     "psa",
     "lgbtqia",
     "fy",
@@ -175,7 +177,10 @@
     "mih",
     "merv",
     "ddc",
-    "ep"
+    "ep",
+    "ab",
+    "plu",
+    "pa"
   ],
   "title": [
     "baruch",
@@ -378,6 +383,7 @@
     "q a " : "Q&A ",
     "25 capacity": "25% capacity",
     "blondel": "Blondell Ave",
+    "radson": "Radisson Hotel",
     "radisson": "Radisson Hotel",
     "dedensified": "de-densified",
     "ham sanitizer": "hand sanitizer",
