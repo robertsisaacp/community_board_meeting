@@ -5,7 +5,7 @@ def test_get_video_metadata():
     video_id = "QeNf4ZZxqiU"
     metadata_dict = get_video_metadata(video_id)[0]
 
-    #author = metadata_dict.get('author')
+    # author = metadata_dict.get('author')
     assert metadata_dict == "SCB2"
 
 
@@ -44,3 +44,8 @@ def test_get_cb_info_nan():
 def test_make_json():
     output_json = make_json('hi', 'there', 'good', 'sir', 'how', 'are', 'you', 'good!')
     assert output_json == 'QCB3'
+
+
+def test_get_video_list():
+    all_ids = get_video_list(delta=True)
+    assert len(all_ids) == 7

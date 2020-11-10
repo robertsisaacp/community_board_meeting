@@ -1,0 +1,45 @@
+{
+    "data": {
+        "YoutubeMetadata": {
+            "author": "BXCB11",
+            "channelId": "https://www.youtube.com/channel/UCG-BOeUcviapIkDFQfxLuiA",
+            "title": "Full Board Continued 10/2020",
+            "publishDate": "2020-10-26",
+            "shortDescription": "",
+            "lengthSeconds": "0:01:09"
+        },
+        "metadata": {
+            "ID": "String",
+            "creationDate": "datetime"
+        },
+        "CommunityBoardInfo": {
+            "communityID": "BXCB11",
+            "normalizedName": "Bronx Community Board 11",
+            "twitterName": null,
+            "youtubeChannelName": "Bronx Community Board 11",
+            "youtubeChannelURL": "https://www.youtube.com/channel/UCG-BOeUcviapIkDFQfxLuiA",
+            "twitterHandle": null,
+            "dateCheckLast": "10/8/2020",
+            "status": "live"
+        },
+        "properties": {
+            "videoURL": "7zcp8XK5o2k",
+            "fillerWordCount": {
+                "uh": 4,
+                "um": 2
+            },
+            "readTimeFullTranscript": "1 min read",
+            "readTimeSummary": "1 min read",
+            "wordCountFullTranscript": {
+                "night": 5,
+                "motion": 2,
+                "ethics": 1,
+                "complaints": 1,
+                "extensions": 1
+            },
+            "wordCountSummary": {},
+            "fullTranscript": "Okay, so I guess the meeting restarted at 10:11, P.M yeah, so it's whoever's to take it. I guess the ethics Committee is yahey right, all right, hello, again, everybody! The community board, will continue to review the pending complaints that have been submitted, and that is all we have for now and motion to Adjourn. You have a second seconded, I second, yes, all right seconded by Ken, any anyone against or any extensions nope all right motion passes meet and Adjourn. Thank you. Everybody have a good night, everybody. Thank you all right. Thank you! Good night thanks everybody for your time meeting ended at 12:10, 12 p.m. Good night, everybody good night, good night.",
+            "summary": ""
+        }
+    }
+}

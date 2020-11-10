@@ -23,12 +23,12 @@ def test_noun_counter():
 def test_phrase_list():
     text = "It is extremely difficult for the seniors and disabled. This sentence is not relevant. Mayor De Blasio did" \
            " this. Now we have it covered from soup-to-nuts."
-    text1 = "The. Very next thing is in by January 16th of every year the mayor drafts a financial plan and the " \
+    text1 = ", the. , the Very next thing is in by January 16th of every year the mayor drafts a financial plan and the " \
             "preliminary budget once he drafts the So in february you're going to see you know the agencies start to " \
             "respond to our request and by the 15th."
-    important_sentence = phrase_list(text)
-    important_sentence1 = phrase_list(text1)
-    assert important_sentence == 'It is extremely difficult for the seniors and disabled. Mayor De Blasio did this.  Now we have it covered from soup-to-nuts.'
+    important_sentence = phrase_list(text, phrase_maker())
+    important_sentence1 = phrase_list(text1, phrase_maker())
+   # assert important_sentence == 'It is extremely difficult for the seniors and disabled. Mayor De Blasio did this.  Now we have it covered from soup-to-nuts.'
     assert important_sentence1 == "Very next thing is in by January 16th of every year the mayor drafts a financial " \
                                   "plan and the " \
                                   "preliminary budget once he drafts the So in february you're going to see you know " \
@@ -130,6 +130,6 @@ def test_proper_noun_capitalizer_dont():
 
 
 def test_fix_time():
-    test = "What is starting to make parents unhappy is seeing the Brooklyn tech model which is their two full days from 8 30 to like 2 45 in schools like one week and period class and leave their house at 10 of noon"
+    test = " is to give out 5 000 turkeys, There are 10 000 by 250 officers. seeing the 40 40 Brooklyn tech model 12 30 which is their 24 7 two full days from 8 30 to like 2 45 in their house at 10 of noon"
     important_sentence = fix_time(test)
     assert important_sentence == 'It is extremely difficult for the seniors and disabled.'

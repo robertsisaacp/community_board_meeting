@@ -28,15 +28,19 @@ def proper_noun_capitalizer(input_text):
 
 def fix_time(input_string):
     """
-    Formats any time string that is missing a colon
+    Formats any time string that is missing a colon, adds , to number
     @param input_string:
     @return:
     """
     import re
 
-    # regexp pattern to match on (12 30)
-    ptrn = "\\s(\\d{1,2})\\s(\\d{1,2})\\s"
-    output = re.sub(fr'{ptrn}', fr' \1:\2 ', input_string)
+    # regexp pattern to match on (ex: 12 30)
+    ptrn = "\\s([0-1]?[0-9]|2[0-3]) ([0-5][0-9]\D)"
+    output = re.sub(fr'{ptrn}', fr' \1:\2', input_string)
+
+    # regexp pattern to match on thousand (12 300)
+    ptrn = "([0-9]{1,3}) ([0-9]{3}\D)"
+    output = re.sub(fr'{ptrn}', fr'\1,\2', output)
 
     return output
 
@@ -128,11 +132,9 @@ def add_punctuation(text_input, iteration=None):
         sentences = sentences.replace(', :', ',')
         sentences = sentences.replace(', .', ',')
         sentences = sentences.replace(' ,,', ',')
-        sentences = sentences.replace(',,', ',')
         sentences = sentences.replace('. .', '.')
         sentences = sentences.replace('.,', '.')
         sentences = sentences.replace(',-', '-')
-        sentences = sentences.replace('..', '.')
         sentences = sentences.replace('??', '?')
         sentences = sentences.replace('?,', '?')
         sentences = sentences.replace(',?', '?')
@@ -140,15 +142,22 @@ def add_punctuation(text_input, iteration=None):
         sentences = sentences.replace('?.', '?')
         sentences = sentences.replace('.?', '?')
         sentences = sentences.replace('!!', '!')
+        sentences = sentences.replace(',!', '!')
         sentences = sentences.replace('::', ':')
         sentences = sentences.replace(':.', ':')
         sentences = sentences.replace(',:', ',')
         sentences = sentences.replace(',.', '.')
         sentences = sentences.replace(':,', ',')
+        sentences = sentences.replace(',;', ';')
         sentences = sentences.replace('-,', ',')
         sentences = sentences.replace('.-', '.')
         sentences = sentences.replace(': ,', ':')
-
+        sentences = sentences.replace('..', '.')
+        sentences = sentences.replace(',,', ',')
+        sentences = sentences.replace('-, ', '-')
+        sentences = sentences.replace(' - ', '-')
+        sentences = sentences.replace(', , ', ', ')
+        sentences = sentences.replace(' , ', ', ')
     return sentences
 
 
@@ -179,15 +188,15 @@ def noun_counter(nlp_text, n=None, all_nouns=None):
     noun_counter = collections.Counter(nouns)
 
     # remove the vague words
-    vague_words = ['organizations', 'priorities', 'point', 'points', 'letters', 'community', 'area', 'issues', 'lot',
-                   'meeting',
+    vague_words = ["organizations", "priorities", 'point', 'points', 'letters', 'community', 'area', 'issues', 'lot',
+                   'meeting', "bit",
                    'district', 'issue', 'people', 'application', 'process', 'applicants', 'process', 'comments',
                    'committee', 'committees', 'things', 'thing', 'members', 'office', 'letter', 'board', 'city', 'time',
-                   'borough',
+                   'borough', "thanks",
                    'question', 'way', 'application', 'resolution', 'questions', 'year', 'site', 'number', 'folks',
                    'support', 'group', 'sort', 'recommendations', 'recommendation', 'items', 'co', 'a.m.', 'p.m.',
-                   "A.M.", "P.M.", "districts", "use", "presentation", "tonight", "majority", "meetings", "discussion",
-                   "couple", "hand", "hands", "stuff"]
+                   "A.M.", "P.M.", "P.M", "A.M", "districts", "use", "presentation", "tonight", "majority", "meetings",
+                   "discussion", "couple", "hand", "hands", "stuff", "pm", "lots", "I."]
     vague_counter = collections.Counter()
     for i in vague_words:
         value = noun_counter.get(i)
@@ -242,12 +251,13 @@ def phrase_maker():
     return data
 
 
-def phrase_list(text):
+def phrase_list(text, phrase_list_input):
     """
     Establish list of terms to capture desired context parameters. Extracts sentences that match phrase
     """
 
     import spacy
+    from string import punctuation
     from spacy.matcher import PhraseMatcher
     nlp = spacy.load('en_core_web_sm')
 
@@ -255,7 +265,7 @@ def phrase_list(text):
     phrase_matcher = PhraseMatcher(nlp.vocab)
 
     # create list of phrases that should provide important context to capture in text
-    phrases = phrase_maker()
+    phrases = phrase_list_input
     nlp_list = list(phrases.keys())
     # build vocabulary pattern
     for key, value in phrases.items():
@@ -277,20 +287,20 @@ def phrase_list(text):
             else:
                 continue
     # remove duplicate sentences and join
-    #all_sents = list(dict.fromkeys(important_sentences))
     all_sents = important_sentences
-    all_sents = [sent.lstrip()[0].capitalize() + sent.lstrip()[1:] for sent in all_sents]
 
-    all_text = " ".join(all_sents)
+    all_sents = [sent.lstrip().strip(punctuation).lstrip()[0].capitalize() + sent.lstrip().strip(punctuation).lstrip()[1:] for sent in all_sents]
+
+    all_text = ". ".join(all_sents)
     return all_text
 
 
-def iterate_summary_input(input_text):
+def iterate_summary_input(input_text, phrase_list_input):
     """
     run second time to re-add punctuation and then filter though key word list
     @return:
     """
     # rerun punctuation model, with better performance on smaller subset of text
     all_text = add_punctuation(input_text, iteration=True)
-    all_text = phrase_list(all_text)
+    all_text = phrase_list(all_text, phrase_list_input)
     return all_text
