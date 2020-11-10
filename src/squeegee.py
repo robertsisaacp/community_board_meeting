@@ -257,6 +257,7 @@ def phrase_list(text, phrase_list_input):
     """
 
     import spacy
+    from string import punctuation
     from spacy.matcher import PhraseMatcher
     nlp = spacy.load('en_core_web_sm')
 
@@ -286,11 +287,11 @@ def phrase_list(text, phrase_list_input):
             else:
                 continue
     # remove duplicate sentences and join
-    #all_sents = list(dict.fromkeys(important_sentences))
     all_sents = important_sentences
-    all_sents = [sent.lstrip()[0].capitalize() + sent.lstrip()[1:] for sent in all_sents]
 
-    all_text = " ".join(all_sents)
+    all_sents = [sent.lstrip().strip(punctuation).lstrip()[0].capitalize() + sent.lstrip().strip(punctuation).lstrip()[1:] for sent in all_sents]
+
+    all_text = ". ".join(all_sents)
     return all_text
 
 

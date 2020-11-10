@@ -34,9 +34,18 @@
     "kovic",
     "kovan",
     "cobid",
-    "kobe"
+    "kobe",
+    "cobit",
+    "cloven",
+    "coving",
+    "covenant",
+    "cobra 19",
+    "cobin"
   ],
   "capital": [
+    "eoh",
+    "dc",
+    "ny",
     "usps",
     "psa",
     "lgbtqia",
@@ -83,6 +92,8 @@
     "sapo",
     "edc",
     "rfp",
+    "d.o.h",
+    "d.o.e.",
     "d-o-t",
     "d.o.t",
     "wpa",
@@ -180,7 +191,11 @@
     "ep",
     "ab",
     "plu",
-    "pa"
+    "pa",
+    "fdr",
+    "dohmh",
+    "fdny",
+    "nih"
   ],
   "title": [
     "baruch",
@@ -295,7 +310,7 @@
     "new springville", "old town", "south beach", "todt hill", "travis", "willowbrook", "annadale", "arden heights",
     "bay terrace", "butler manor", "charleston", "eltingville", "fresh kills", "great kills", "greenridge", "huguenot",
     "oakwood", "oakwood beach", "oakwood heights", "pleasant plains", "prince's bay", "richmond town",
-    "richmond valley", "rossville", "sandy ground", "tottenville", "woodrow"
+    "richmond valley", "rossville", "sandy ground", "tottenville", "woodrow", "red hook"
   ],
   "filler": [
     "um",
@@ -308,6 +323,21 @@
     "[Applause]"
   ],
   "spelling": {
+    "ymha ": "YMCA ",
+    "pom card": "palm card",
+    "pump card": "palm card",
+    " hnh ": " H&H ",
+    "3-1-1": "311",
+    "d-o-t-d-o-b": "DOT DOB",
+    "d-e-p": "DEP",
+    "d-d-o-h-mh": "DOHMH",
+    "van brown": "Van Brunt",
+    "albano ": "Albano Jr. Playground ",
+    "abono ": "Albano Jr. Playground ",
+    "boreham hill": "Boerum Hill",
+    "back slope": "Park Slope",
+    "park soap": "Park Slope",
+    "hbd ": "HPD ",
     "nysha": "NYCHA",
     "fairy": "ferry",
     "lesbian board": "LESPI Board",

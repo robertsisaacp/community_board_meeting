@@ -16,7 +16,12 @@ def analyze_week():
 
 def get_collection(collection_name):
     import pymongo
-    client_address = "key"
+    import os
+
+    path = os.path.join(os.getcwd(), '../../data/')
+    with open(f"{path}mongo_key.txt", "r") as f:
+        data = f.readlines()
+    client_address = data
     # establish connection to database
     client = pymongo.MongoClient(client_address)
     # access the database by making an instance
@@ -87,14 +92,18 @@ def update_db(id_input_obj, executive_summary_output, read_time):
 
 if __name__ == "__main__":
     start_date, end_date = analyze_week()
+    print(f'analyze from {start_date} to {end_date}')
     db_collection = get_collection('transcripts_v3')
     db_query = filter_db_object(db_collection, start_date, end_date)
     # print(query)
     index = 0
+    all_summary = []
     for id in db_query:
-        print('Generating word list')
+        print('Generating word list for ' + str(id.get('properties').get('videoURL')))
         top_word_list_input = generate_word_list(id)
         print('Compiling summary and read time')
         executive_summary, read_time_executive_summary = generate_executive_summary(id, top_word_list_input)
+        all_summary.append(executive_summary)
         print('Updating database')
         update_db(id, executive_summary, read_time_executive_summary)
+    print(all_summary)

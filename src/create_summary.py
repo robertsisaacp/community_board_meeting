@@ -1,6 +1,7 @@
 from src.squeegee import *
 
-def get_video_list():
+
+def get_video_list(delta=None):
     """
     call csv file of url
     """
@@ -11,12 +12,22 @@ def get_video_list():
     video_id_file = os.path.join(video_id_path, 'video_id_list.csv')
     video_id_df = pd.read_csv(video_id_file)
 
-    # filter out anything already processed
-    video_id_df = video_id_df[video_id_df['status'].isna()]
+    if delta is not None:
+        # specify your path of directory
+        path = os.path.join(os.getcwd(), '../json_objects')
+        # get all files in directory
+        directories = os.listdir(path)
+        file_list_processed = [file.split('.json')[0] for file in directories if file != '.DS_Store']
+        # filter out anything already processed
+        video_id_df = video_id_df[~video_id_df['video_id'].isin(file_list_processed)]
+
+    else:
+        # filter out anything already processed
+        video_id_df = video_id_df[video_id_df['status'].isna()]
 
     # make list of video ids
     video_id_list = list(set(video_id_df['video_id']))
-
+    print(video_id_list)
     return video_id_list
 
 

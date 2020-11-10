@@ -3,7 +3,7 @@ from src.squeegee import *
 
 if __name__ == "__main__":
     # Call in list of url strings from csv file
-    all_ids = get_video_list()
+    all_ids = get_video_list(delta=None)
     print(all_ids)
     processed_ids = []
     print(f'Getting transcripts for {len(all_ids)} Community Board meetings')
