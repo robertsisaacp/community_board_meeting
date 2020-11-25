@@ -73,6 +73,22 @@ def convert_seconds(seconds):
     return "%d:%02d:%02d" % (hour, minutes, seconds)
 
 
+def get_title(response):
+    """
+    Using beautifulsoup to get the title from the html page
+    @param response:
+    @return:
+    """
+    from bs4 import BeautifulSoup, SoupStrainer
+    title_container = SoupStrainer("title")
+    soup = BeautifulSoup(response, 'lxml', parse_only=title_container)
+    title = soup.find('title').text
+    # remove the YouTube substring applied to each page
+    title = title.replace(" - YouTube", "")
+
+    return title
+
+
 def get_video_metadata(transcript_id):
     """
     Obtains metadata for video from video url requests
@@ -92,7 +108,7 @@ def get_video_metadata(transcript_id):
     channel_link = f'"channelId":"https://www.youtube.com/channel/{cb_channel}'
 
     # Meeting Information
-    title = re.findall(r'"title":"[^>]*",', response)[0].split(',')[0]
+    title = f'title":"{get_title(response)}"'
     date = re.findall(r'"publishDate":"[^>]*",', response)[0].split('",')[0]
     description = re.findall(r'"shortDescription":"[^>]*",', response)[0].split('",')[0]
     length = re.findall(r'"lengthSeconds":"[^>]*",', response)[0].split('",')[0]
@@ -163,7 +179,10 @@ def summarize_text(text_input=None, ratio_input=None, word_count=None):
     from gensim.summarization import summarize
 
     summary = summarize(text_input, ratio=ratio_input, word_count=word_count)
-    return summary
+    # remove any weird punctuation
+    # fix any funky punctuation
+    text_output = fix_weird_punctuation(summary)
+    return text_output
 
 
 def output_transcript(transcript_id, summary_input, summary_output, ratio_of_transcript, metadata):

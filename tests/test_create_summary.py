@@ -2,11 +2,11 @@ from src.create_summary import *
 
 
 def test_get_video_metadata():
-    video_id = "QeNf4ZZxqiU"
+    video_id = "MLysKMjWNbM"
     metadata_dict = get_video_metadata(video_id)[0]
-
-    # author = metadata_dict.get('author')
-    assert metadata_dict == "SCB2"
+    print(metadata_dict)
+    title = metadata_dict.get('title')
+    assert title == 'November 19,2020 Public Place/ Gowanus Green presentation and Q&A - YouTube'
 
 
 def test_get_transcript():
@@ -49,3 +49,28 @@ def test_make_json():
 def test_get_video_list():
     all_ids = get_video_list(delta=True)
     assert len(all_ids) == 7
+
+
+def test_get_title():
+    import requests
+    video_url = f"https://www.youtube.com/watch?v=MLysKMjWNbM"
+    response = requests.get(video_url).content
+    title = get_title(response)
+    assert title == 'November 19,2020 Public Place/ Gowanus Green presentation and Q&A'
+
+
+def test_summarize_text():
+    import json
+    with open(f'../json_objects/iFmGCX6Sf_0.json') as jsonfile:
+        data = json.load(jsonfile)
+        test_input = data.get('data').get('properties').get('fullTranscript')
+        print(test_input[:1000])
+    summary = summarize_text(test_input, .10)
+
+    assert summary == "Let me tell you it's going to be 10 times worse if they had put the monitors where it really truly " \
+                 "would impact people on the field, people in the playground, people in the streets, but that's, " \
+                 "unfortunately, not what is happening and Kelly we want continuous air monitoring the entire time " \
+                 "they have declined that many times we've asked for real-time data, of which we know they are " \
+                 "collecting their Ebam equipment: is this facility adding pollutants that are dangerous to the " \
+                 "community's health, and especially the elderly and the children that are closest to the vicinity " \
+                 "and that's around asphalt, green."
