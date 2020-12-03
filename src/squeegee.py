@@ -25,6 +25,10 @@ def proper_noun_capitalizer(input_text):
     # replace split of gon na
     output = output.replace("gon na", 'gonna')
     output = output.replace("got ta", 'gotta')
+
+    # fix incorrect street capitalization
+    output = fix_street(output)
+
     return output
 
 
@@ -62,6 +66,7 @@ def fix_street(input_string):
     ptrn = "(\d{1,3})(Nd|Th|Rd)"
     output = re.sub(fr'{ptrn}', street_match, input_string)
     return output
+
 
 def remove_duplicate_phrase(text_input):
     """
@@ -103,9 +108,6 @@ def clean_transcript(text_input):
     import json
     import re
 
-    # remove duplicate phrases
-    text_input = remove_duplicate_phrase(text_input)
-
     # run cleaning pipeline
     with open('../data/keyword/clean.json') as f:
         data = json.load(f)
@@ -140,6 +142,9 @@ def clean_transcript(text_input):
     spelling_words = data.get('spelling')
     regex = re.compile("|".join(map(re.escape, spelling_words.keys())))
     text_output = regex.sub(lambda match: spelling_words[match.group(0)], fix_title)
+
+    # remove duplicate phrases
+    text_output = remove_duplicate_phrase(text_output)
 
     # capitalize proper nouns
     text_output = proper_noun_capitalizer(text_output)
@@ -237,7 +242,6 @@ def autocorrect(text_input):
     return spell(text_input)
 
 
-
 def text_length(text_input):
     import readtime
     length = readtime.of_text(text_input)
@@ -266,14 +270,14 @@ def noun_counter(nlp_text, n=None, all_nouns=None):
 
     # remove the vague words
     vague_words = ["organizations", "priorities", 'point', 'points', 'letters', 'community', 'area', 'issues', 'lot',
-                   'meeting', "bit",
+                   'meeting', "bit", "chair", "chairs", "vote", "phone", "vice", "communities",
                    'district', 'issue', 'people', 'application', 'process', 'applicants', 'process', 'comments',
                    'committee', 'committees', 'things', 'thing', 'members', 'office', 'letter', 'board', 'city', 'time',
                    'borough', "thanks", "example", "guys", "person", "list", "terms", "information", "conversation",
                    "response", "years", "fact", "work", "role", "member", "minutes", "dates", "kind",
                    "form", "session", "motion", "member", "days", "opportunity", "subject",
                    'question', 'way', 'application', 'resolution', 'questions', 'year', 'site', 'number', 'folks',
-                   'support', 'group', 'sort', 'recommendations', 'recommendation', 'items', 'co', 'a.m.', 'p.m.', "pm",
+                   'support', 'group', 'sort', 'recommendations', 'recommendation', "item", 'items', 'co', 'a.m.', 'p.m.', "pm",
                    "am", "Applause", "week", "weeks", "email", "month", "months", "agenda", "person"
                    "A.M.", "P.M.", "P.M", "A.M", "districts", "use", "presentation", "tonight", "majority", "meetings",
                    "discussion", "couple", "hand", "hands", "stuff", "pm", "lots", "I.", "bit"]
@@ -342,7 +346,7 @@ def phrase_list(text, phrase_list_input):
     nlp = spacy.load('en_core_web_lg')
 
     # use spacy nlp.vocab object for encoded annotations adds the “key” for index
-    phrase_matcher = PhraseMatcher(nlp.vocab)
+    phrase_matcher = PhraseMatcher(nlp.vocab, attr="LOWER")
 
     # create list of phrases that should provide important context to capture in text
     phrases = phrase_list_input

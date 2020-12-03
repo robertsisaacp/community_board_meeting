@@ -46,7 +46,9 @@
     "cope at 19",
     "cova",
     "copio 19",
-    "Copio 19"
+    "Copio 19",
+    "Colvin",
+    "colvin"
   ],
   "capital": [
     "td",
@@ -99,6 +101,7 @@
     "edc",
     "rfp",
     "d.o.h",
+    "d.o.e",
     "d.o.e.",
     "d-o-t",
     "d.o.t",
@@ -234,7 +237,18 @@
     "cte",
     "qr",
     "dhcr",
-    "dfe"
+    "dfe",
+    "nysarc",
+    "jcc",
+    "syep",
+    "uft",
+    "ieps",
+    "ssi",
+    "naacp",
+    "hcr",
+    "scr",
+    "fyi",
+    "omh"
   ],
   "title": [
     "gotham",
@@ -370,6 +384,11 @@
     "[Applause]"
   ],
   "spelling": {
+    "covered protocols": "Covid-19 protocols",
+    "carolina rivera": "Carlina Rivera",
+    " f b ": "F&B",
+    "NYC well": "NYC-WELL",
+    "border bed": "Board of Ed.",
     "broedcast": "broadcast",
     "michael schwarmer": "Michael Schwerner",
     "cares act": "CARES Act",
@@ -382,6 +401,7 @@
     "the there's": "there's",
     "mwbe" : "M/WBE",
     "gil brewer": "Gail Brewer",
+    "brad poyleman": "Brad Hoylman",
     " dcb ": " DCP ",
     "sort of": "",
     "and then and then": "and then",
@@ -422,7 +442,7 @@
     "richard barack": "Richard Bearak",
     "pre-covered": "pre-Covid",
     "adas": "IDAS",
-    "ecap": "ECAB",
+    " ecap": " ECAB",
     "witness AIDS service unit": "Witness Aid Services Unit",
     "dr long": "Dr. Long",
     "operator out": "opt-out",

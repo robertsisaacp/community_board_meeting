@@ -73,6 +73,27 @@ def convert_seconds(seconds):
     return "%d:%02d:%02d" % (hour, minutes, seconds)
 
 
+def format_title_and_date(input_string):
+    """
+    Parser will return a tuple where the first element is the parsed datetime.datetime
+    datetimestamp and the second element is a tuple containing the portions of the string which were ignored.
+    @param input_string:
+    @return:
+    """
+    import dateutil.parser as dparser
+    from string import punctuation
+
+    title_date = {}
+    try:
+        title_tup = dparser.parse(input_string, fuzzy_with_tokens=True)
+        title_date['publishDate'] = title_tup[0]
+        title_date['title'] = "".join([word.lstrip().strip(punctuation).lstrip().rstrip() for word in title_tup[1]])
+    except:
+        title_date['title'] = input_string
+
+    return title_date
+
+
 def get_title(response):
     """
     Using beautifulsoup to get the title from the html page
@@ -83,10 +104,14 @@ def get_title(response):
     title_container = SoupStrainer("title")
     soup = BeautifulSoup(response, 'lxml', parse_only=title_container)
     title = soup.find('title').text
+
     # remove the YouTube substring applied to each page
     title = title.replace(" - YouTube", "")
 
-    return title
+    # remove the date from the title, to ensure consistency with Publish Date
+    title_dict = format_title_and_date(title)
+
+    return title_dict
 
 
 def get_video_metadata(transcript_id):
@@ -108,7 +133,9 @@ def get_video_metadata(transcript_id):
     channel_link = f'"channelId":"https://www.youtube.com/channel/{cb_channel}'
 
     # Meeting Information
-    title = f'title":"{get_title(response)}"'
+    # get title from title_dict
+
+    title = f'title":"{get_title(response).get("title")}"'
     date = re.findall(r'"publishDate":"[^>]*",', response)[0].split('",')[0]
     description = re.findall(r'"shortDescription":"[^>]*",', response)[0].split('",')[0]
     length = re.findall(r'"lengthSeconds":"[^>]*",', response)[0].split('",')[0]

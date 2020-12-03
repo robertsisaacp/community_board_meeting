@@ -76,6 +76,15 @@ def test_clean_transcript_capitalize():
     assert clean_text == 'CDC testing 1,2,3'
 
 
+def test_clean_transcript_remove_dupe():
+    text = "You know a challenging to um to really like develop the same level of rapport and what we've seen in our " \
+           "programs not specifically work for us, but just our literacy and our after school programs."
+    clean_text = clean_transcript(text)[0]
+    assert clean_text == "You know a challenging to really like develop the same level of rapport and what we've seen " \
+                         "in our " \
+                         "programs not specifically work for us, but just our literacy and our after school programs."
+
+
 def test_clean_transcript_title():
     text = "new york city um testing testing 1,2,3"
     clean_text = clean_transcript(text)
@@ -122,6 +131,14 @@ def test_proper_noun_capitalizer():
 
 def test_proper_noun_capitalizer_endash():
     summary = "We're in new york city and we want a non-disruptive delivery window."
+    sentence_output = proper_noun_capitalizer(summary)
+    assert sentence_output == "We're in New York City and we want a non-disruptive delivery window."
+
+
+def test_proper_noun_capitalizer_street():
+    summary = "bloomingdale square ran from 53rd to 57th streets between 8th and 9th avenue. The bloomingdale dutch " \
+              "reform church was at 68th street and the bloomingdale insane asylum was at 116th street in the early " \
+              "1800s. As the west side became, more populated, distinct villages "
     sentence_output = proper_noun_capitalizer(summary)
     assert sentence_output == "We're in New York City and we want a non-disruptive delivery window."
 
@@ -175,9 +192,9 @@ def test_remove_duplicate_phrase():
 
 def test_fix_street():
     text_input = "Bloomingdale Square ran from 53Rd to 57Th streets between 8th and 9th Avenue. The Bloomingdale Dutch " \
-                "Reform Church was at 68Th Street and the Bloomingdale Insane Asylum was at 116Th Street in the early " \
-                "1800s. As the West side became, more populated, distinct villages."
+                 "Reform Church was at 68Th Street and the Bloomingdale Insane Asylum was at 116Th Street in the early " \
+                 "1800s. As the West side became, more populated, distinct villages."
     fixed_output = fix_street(text_input)
     assert fixed_output == "Bloomingdale Square ran from 53rd to 57th streets between 8th and 9th Avenue. The Bloomingdale Dutch " \
-                "Reform Church was at 68th Street and the Bloomingdale Insane Asylum was at 116th Street in the early " \
-                "1800s. As the West side became, more populated, distinct villages."
+                           "Reform Church was at 68th Street and the Bloomingdale Insane Asylum was at 116th Street in the early " \
+                           "1800s. As the West side became, more populated, distinct villages."

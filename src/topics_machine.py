@@ -114,7 +114,7 @@ def classify_meeting_type(input_keyword_str):
     print('classifying title')
     sequence = input_keyword_str
     candidate_labels = ["General", "Social Services", "Education", "Health", "Employment", "Safety",
-                        "Quality of Life", "Transportation", "Infrastructure", "Parks",
+                        "Quality of Life", "Transportation", "Infrastructure", "Parks", "Waterfront",
                         "Commercial Development", "Land Use", "Budget", "Housing", "Equity", "Arts and Culture"]
 
     # save classification

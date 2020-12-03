@@ -6,7 +6,7 @@ def test_get_video_metadata():
     metadata_dict = get_video_metadata(video_id)[0]
     print(metadata_dict)
     title = metadata_dict.get('title')
-    assert title == 'November 19,2020 Public Place/ Gowanus Green presentation and Q&A - YouTube'
+    assert title == 'Public Place/ Gowanus Green presentation and Q&A'
 
 
 def test_get_transcript():
@@ -55,8 +55,8 @@ def test_get_title():
     import requests
     video_url = f"https://www.youtube.com/watch?v=MLysKMjWNbM"
     response = requests.get(video_url).content
-    title = get_title(response)
-    assert title == 'November 19,2020 Public Place/ Gowanus Green presentation and Q&A'
+    title = get_title(response).get('title')
+    assert title == 'Public Place/ Gowanus Green presentation and Q&A'
 
 
 def test_summarize_text():
