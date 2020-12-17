@@ -3,3 +3,5 @@
 /notebooks/.ipynb_checkpoints
 .vscode
 /src/topics_machine.py
+/src/transformers
+/transcripts/

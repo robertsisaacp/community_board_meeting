@@ -1,12 +1,37 @@
-def analyze_week():
+def analyze_month(end_date=None):
+    """
+    Input date to filter database by.
+    @param start_date: initial date to filter a month from
+    @return: date range of month from start date.
+    """
+    import datetime as dt
+    from datetime import datetime
+
+    # Query to last week's data
+    if end_date is not None:
+        day = datetime.strptime(end_date, '%Y-%m-%d')
+    else:
+        day = dt.datetime.now().date()
+
+    # Make range date
+    start = day - dt.timedelta(days=30)
+    end = day
+    return start, end
+
+def analyze_week(start_date_input=None):
     """
     Input date
     @param start_date:
     @return:
     """
     import datetime as dt
+    from datetime import datetime
     # Query to last week's data
-    day = dt.datetime.now().date()
+
+    if start_date_input is not None:
+        day = datetime.strptime(start_date_input, '%Y-%m-%d')
+    else:
+        day = dt.datetime.now().date()
 
     # Make range date
     start = day - dt.timedelta(days=day.weekday() + 1)
@@ -15,6 +40,11 @@ def analyze_week():
 
 
 def get_collection(collection_name):
+    """
+    Read in key to mongoDB and return collection
+    @param collection_name: specify the collection to call
+    @return: collection object
+    """
     import pymongo
     import os
 
@@ -33,6 +63,13 @@ def get_collection(collection_name):
 
 
 def filter_db_object(collection_obj, start_db, end_db):
+    """
+    Grab all objects in collection that are between specified range
+    @param collection_obj: collection object from mongoDB
+    @param start_db: initial date to begin
+    @param end_db: the date to end
+    @return: database collection object filtered to date
+    """
     query = collection_obj.find(
         {"YoutubeMetadata.publishDate": {"$gte": start_db.isoformat(), "$lt": end_db.isoformat()}})
     return query
@@ -76,9 +113,41 @@ def generate_executive_summary(id_input_obj, input_word_list):
     return executive_summary_output, read_time
 
 
-def update_db(id_input_obj, executive_summary_output, read_time):
+def word_list_converter(top_word_list):
+    """
+    Take top word count and reformat into string for classification
+    @return:
+    """
+    from itertools import chain
+    input_string_list = []
+    {input_string_list.append(x) for x in chain(*top_word_list.values()) if x}
+    input_string = ' '.join(input_string_list)
+    return input_string
+
+
+def classify_meeting_type(input_keyword_str):
+    """
+    Using zeo-shot-classification from Hugging Face, classify the type of meeting
+    @param input_keyword_str: top word list from full transcript and summary, used to classify meeting type
+    @return:
+    """
+    print('classifying title')
+    sequence = input_keyword_str
+    candidate_labels = ["General", "Social Services", "Education", "Health", "Employment", "Safety",
+                        "Quality of Life", "Transportation", "Infrastructure", "Parks", "Waterfront",
+                        "Commercial Development", "Land Use", "Budget", "Housing", "Equity", "Arts and Culture"]
+
+    # save classification
+    classification_result = classifier(sequence, candidate_labels)
+    print(classification_result)
+    # return only top classification
+    return classification_result.get('labels')[0]
+
+
+def update_db(id_input_obj, executive_summary_output, read_time, meeting_classification):
     """
     Add execSummary and readTimeExecSummary into properties
+    @param meeting_classification: meeting type from hugging face classification
     @param id_input_obj:
     @param executive_summary_output:
     @param read_time:
@@ -86,12 +155,16 @@ def update_db(id_input_obj, executive_summary_output, read_time):
     """
     print(f'Updating db for {id_input_obj.get("_id")} in {id_input_obj.get("properties").get("videoURL")}.json')
     db_collection.update_one({'_id': id_input_obj.get("_id")},
-                            {'$set': {'properties.execSummary': executive_summary_output,
-                                      'properties.readTimeExecSummary': str(read_time)}})
+                             {'$set': {'properties.meetingType': meeting_classification,
+                                       'properties.execSummary': executive_summary_output,
+                                       'properties.readTimeExecSummary': str(read_time)}})
 
 
 if __name__ == "__main__":
-    start_date, end_date = analyze_week()
+    from transformers import pipeline
+
+    classifier = pipeline("zero-shot-classification")
+    start_date, end_date = analyze_month(end_date='2020-12-04')
     print(f'analyze from {start_date} to {end_date}')
     db_collection = get_collection('transcripts_v3')
     db_query = filter_db_object(db_collection, start_date, end_date)
@@ -104,6 +177,11 @@ if __name__ == "__main__":
         print('Compiling summary and read time')
         executive_summary, read_time_executive_summary = generate_executive_summary(id, top_word_list_input)
         all_summary.append(executive_summary)
+        print('Classify Meeting Type')
+        print('converting top word list into string')
+        input_to_classify = word_list_converter(top_word_list_input)
+        print('classifying top word list')
+        meeting_type = classify_meeting_type(input_to_classify)
         print('Updating database')
-        update_db(id, executive_summary, read_time_executive_summary)
+        update_db(id, executive_summary, read_time_executive_summary, meeting_type)
     print(all_summary)

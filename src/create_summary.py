@@ -73,6 +73,93 @@ def convert_seconds(seconds):
     return "%d:%02d:%02d" % (hour, minutes, seconds)
 
 
+def clean_title(title_input):
+    """
+    Quick clean of title input to remove boilerplate words and fix when date parse fails
+    @param title_input:
+    @return:
+    """
+    import re
+
+    # remove .2020
+    ptn = r'(?:\.[0-9]{4}(?:[^.]|$))|(?:(?:[^.]|^)[0-9]{4}(?:[^.]|$))|(?:(?:[^.]|^)[0-9]{4}\.)'
+    title = re.sub(ptn, ' ', title_input)
+
+    # remove boiler plate words
+    boiler_words_ptn = re.compile(r"(Virtual Meeting)", re.I)
+    title_output = boiler_words_ptn.sub("", title)
+
+    return title_output
+
+
+def final_title_scrub(input_text):
+    """
+    Final clean of extraneous characters leading or trailing, and fix spacing
+    @param input_text:
+    @return:
+    """
+    import re
+    from string import punctuation
+
+    # remove lingering punctuation
+    output_text = input_text.strip(punctuation).lstrip().rstrip()
+
+    # add space between lower case letter followed by upper case
+    final_title = re.sub(r"([a-z])([A-Z])", r"\1 \2", output_text)
+
+    return final_title
+
+
+def format_title_and_date(input_string):
+    import dateutil.parser as dparser
+    from string import punctuation
+    """
+    Parser will return a tuple where the first element is the parsed datetime.datetime 
+    datetimestamp and the second element is a tuple containing the portions of the string which were ignored.
+    """
+    title_date = {}
+
+    # clean title input
+    input_string = clean_title(input_string)
+
+    try:
+        title_tup = dparser.parse(input_string, fuzzy_with_tokens=True)
+        title_date['publishDate'] = title_tup[0]
+        title_input = "".join([word.lstrip().rstrip().strip(punctuation).lstrip().rstrip()
+                                       for word in title_tup[1]
+                                       # remind future self to build a function for this***
+                                       if word.lstrip().rstrip().strip(punctuation).lstrip().rstrip() not in ["CB",
+                                                                                                            "MCB",
+                                                                                                              "BCB"]])
+        # apply final scrub
+        title_date['title'] = final_title_scrub(title_input)
+
+    except:
+        title_date['title'] = input_string
+
+    return title_date
+
+
+def get_title(response):
+    """
+    Using beautifulsoup to get the title from the html page
+    @param response:
+    @return:
+    """
+    from bs4 import BeautifulSoup, SoupStrainer
+    title_container = SoupStrainer("title")
+    soup = BeautifulSoup(response, 'lxml', parse_only=title_container)
+    title = soup.find('title').text
+
+    # remove the YouTube substring applied to each page
+    title = title.replace(" - YouTube", "")
+
+    # remove the date from the title, to ensure consistency with Publish Date
+    title_dict = format_title_and_date(title)
+
+    return title_dict
+
+
 def get_video_metadata(transcript_id):
     """
     Obtains metadata for video from video url requests
@@ -92,7 +179,9 @@ def get_video_metadata(transcript_id):
     channel_link = f'"channelId":"https://www.youtube.com/channel/{cb_channel}'
 
     # Meeting Information
-    title = re.findall(r'"title":"[^>]*",', response)[0].split(',')[0]
+    # get title from title_dict
+
+    title = f'title":"{get_title(response).get("title")}"'
     date = re.findall(r'"publishDate":"[^>]*",', response)[0].split('",')[0]
     description = re.findall(r'"shortDescription":"[^>]*",', response)[0].split('",')[0]
     length = re.findall(r'"lengthSeconds":"[^>]*",', response)[0].split('",')[0]
@@ -126,30 +215,24 @@ def get_transcript(video_id):
     :return: string of text
     """
     from youtube_transcript_api import YouTubeTranscriptApi
-    import itertools
 
     # use api to read in transcript
-    transcript_input = YouTubeTranscriptApi.get_transcript(video_id, languages=('en', 'en-US'))
+    transcript_input = YouTubeTranscriptApi.list_transcripts(video_id)
 
-    n = len(transcript_input)
+    # only get automatically generated caption text
+    transcript_obj = transcript_input.find_generated_transcript(['en'])
+
+    transcript = transcript_obj.fetch()
+
+    n = len(transcript)
     # get all text for each line of transcript
-    transcript_text = [transcript_input[i].get('text') for i in range(n)]
+    transcript_text = [transcript[i].get('text') for i in range(n)]
 
     # if there is already a semicolon in the raw text, the video was formatted differently
-    formatted = False
-    if ',' not in transcript_text[0]:
-        transcript_output = " ".join(f"{line}" for line in transcript_text)
-
-    # if captions already formatted, we do not want to add punctuation
-    if ',' in transcript_text[0]:
-        formatted = True
-        print("Transcript already formatted")
-        transcript_text = [line.lower().split(': ')[-1:] for line in transcript_text]
-        transcript_text = list(itertools.chain.from_iterable(transcript_text))
-        transcript_output = " ".join(transcript_text)
+    transcript_output = " ".join(f"{line}" for line in transcript_text)
 
     # output in one string chunk
-    return transcript_output, formatted
+    return transcript_output
 
 
 def summarize_text(text_input=None, ratio_input=None, word_count=None):
@@ -163,7 +246,10 @@ def summarize_text(text_input=None, ratio_input=None, word_count=None):
     from gensim.summarization import summarize
 
     summary = summarize(text_input, ratio=ratio_input, word_count=word_count)
-    return summary
+    # remove any weird punctuation
+    # fix any funky punctuation
+    text_output = fix_weird_punctuation(summary)
+    return text_output
 
 
 def output_transcript(transcript_id, summary_input, summary_output, ratio_of_transcript, metadata):

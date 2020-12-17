@@ -7,7 +7,7 @@ def proper_noun_capitalizer(input_text):
     import spacy
     import re
     # Create the nlp object
-    nlp = spacy.load("en_core_web_sm")
+    nlp = spacy.load("en_core_web_lg")
     doc = nlp(input_text)
 
     # if word all lowercase and identified as a proper noun by spacy, make into title case
@@ -18,11 +18,17 @@ def proper_noun_capitalizer(input_text):
     output = re.sub(r' (?=\W)', '', token_texts)
 
     # replace conjunction split by spacy with not
-    output = output.replace("n't", 'not')
+    output = output.replace("- ", '-')
+    output = output.replace(" n't", "n't")
     output = output.replace("ca not", "can't")
     output = output.replace("wo not", "won't")
     # replace split of gon na
-    output = output.replace("gon na", 'going to')
+    output = output.replace("gon na", 'gonna')
+    output = output.replace("got ta", 'gotta')
+
+    # fix incorrect street capitalization
+    output = fix_street(output)
+
     return output
 
 
@@ -35,7 +41,7 @@ def fix_time(input_string):
     import re
 
     # regexp pattern to match on (ex: 12 30)
-    ptrn = "\\s([0-1]?[0-9]|2[0-3]) ([0-5][0-9]\D)"
+    ptrn = "\\s(0?[1-9]|1[0-2]) ([0-5][0-9]\D)"
     output = re.sub(fr'{ptrn}', fr' \1:\2', input_string)
 
     # regexp pattern to match on thousand (12 300)
@@ -45,16 +51,64 @@ def fix_time(input_string):
     return output
 
 
+def fix_street(input_string):
+    """
+    Fixes when streets are capitalized
+    @param input_string:
+    @return:
+    """
+    import re
+
+    def street_match(match):
+        street_fixed = match.group(1) + match.group(2).lower()
+        return street_fixed
+
+    ptrn = "(\d{1,3})(Nd|Th|Rd)"
+    output = re.sub(fr'{ptrn}', street_match, input_string)
+    return output
+
+
+def remove_duplicate_phrase(text_input):
+    """
+    Find any repeat patterns and remove from text_input
+    @param text_input:
+    @return:
+    """
+    from itertools import chain, groupby
+
+    def stride(lst, offset, length):
+        if offset:
+            yield lst[:offset]
+
+        while True:
+            yield lst[offset:offset + length]
+            offset += length
+            if offset >= len(lst):
+                return
+
+    def dedupe(lst):
+        return list(chain(*[item[0] for item in groupby(lst)]))
+
+    def cleanse(list_of_words, max_phrase_length):
+        for length in range(1, max_phrase_length + 1):
+            for offset in range(length):
+                list_of_words = dedupe(stride(list_of_words, offset, length))
+
+        return list_of_words
+
+    return ' '.join(cleanse(text_input.split(), 3))
+
+
 def clean_transcript(text_input):
     """
     Removes filler words from transcript and any repeat words, fixes spelling errors and adds capitalization that is
     previously hard coded. Also formats any time strings.
     :return:
     """
-    import itertools
     import json
     import re
 
+    # run cleaning pipeline
     with open('../data/keyword/clean.json') as f:
         data = json.load(f)
 
@@ -65,13 +119,13 @@ def clean_transcript(text_input):
     # count and store number of "um", "uh" that was removed
     num_filler = {'uh': query_words.count('uh'), 'um': query_words.count('um')}
 
-    # check for filler words or for word that repeats in sequence
-    remove_dupe_and_filler_words = [word for word, _ in itertools.groupby(query_words) if word not in filler_words]
+    # remove filler words
+    remove_filler_words = [word for word in query_words if word not in filler_words]
 
     # replace mispelling of covid
     covid_normalized = 'Covid-19'
     covid_words = data.get(covid_normalized)
-    fix_covid = [covid_normalized if word in covid_words else word for word in remove_dupe_and_filler_words]
+    fix_covid = [covid_normalized if word in covid_words else word for word in remove_filler_words]
 
     # fix capitalization
     capitalize_words = data.get('capital')
@@ -89,12 +143,72 @@ def clean_transcript(text_input):
     regex = re.compile("|".join(map(re.escape, spelling_words.keys())))
     text_output = regex.sub(lambda match: spelling_words[match.group(0)], fix_title)
 
+    # remove duplicate phrases
+    text_output = remove_duplicate_phrase(text_output)
+
     # capitalize proper nouns
     text_output = proper_noun_capitalizer(text_output)
+
+    # fix any funky punctuation
+    text_output = fix_weird_punctuation(text_output)
 
     # fix time string formatting
     text_output = fix_time(text_output)
     return text_output, num_filler
+
+
+def fix_weird_punctuation(text_input):
+    """
+    Fix any errors from Punctuator model
+    @param text_input:
+    @return:
+    """
+    import re
+    # fix duplicate punctuation
+    sentences = text_input.replace(" '", "'")
+    sentences = sentences.replace(' .', '.')
+    sentences = sentences.replace(' :', ':')
+    sentences = sentences.replace(' ,', ',')
+    sentences = sentences.replace('  ,', ',')
+    sentences = sentences.replace(', ,', ',')
+    sentences = sentences.replace(', :', ',')
+    sentences = sentences.replace(', .', ',')
+    sentences = sentences.replace(' ,,', ',')
+    sentences = sentences.replace('. .', '.')
+    sentences = sentences.replace('.,', ',')
+    sentences = sentences.replace(',-', '-')
+    sentences = sentences.replace('??', '?')
+    sentences = sentences.replace('?,', '?')
+    sentences = sentences.replace(',?', '?')
+    sentences = sentences.replace('?,', '?')
+    sentences = sentences.replace('?.', '?')
+    sentences = sentences.replace('.?', '?')
+    sentences = sentences.replace('!!', '!')
+    sentences = sentences.replace(',!', '!')
+    sentences = sentences.replace('::', ':')
+    sentences = sentences.replace(':.', ':')
+    sentences = sentences.replace(',:', ',')
+    sentences = sentences.replace(',.', ',')
+    sentences = sentences.replace(':,', ',')
+    sentences = sentences.replace(',;', ';')
+    sentences = sentences.replace('-,', ',')
+    sentences = sentences.replace('.-', '-')
+    sentences = sentences.replace(': ,', ':')
+    sentences = sentences.replace('..', '.')
+    sentences = sentences.replace(',,', ',')
+    sentences = sentences.replace('-, ', '-')
+    sentences = sentences.replace(' - ', '-')
+    sentences = sentences.replace(', , ', ', ')
+    sentences = sentences.replace(' , ', ', ')
+    # fix spacing if not whitespace
+    sentences = re.sub(r' (?=\W)', '', sentences)
+
+    # remove any punctuation added between New York City
+    sentences = sentences.replace("New, York, City", 'New York City')
+    sentences = sentences.replace("New York, City", 'New York City')
+    sentences = sentences.replace("New, York City", 'New York City')
+
+    return sentences
 
 
 def add_punctuation(text_input, iteration=None):
@@ -106,7 +220,6 @@ def add_punctuation(text_input, iteration=None):
     @param text_input:
     @param iteration: if True, then remove the commas to re-ad
     """
-    # import re
     from punctuator import Punctuator
 
     # import default pre-trained model from punctuator
@@ -119,46 +232,24 @@ def add_punctuation(text_input, iteration=None):
         # text_input = re.sub(r'\.(?!\d)', '', text_input)
         # text_input = re.sub(r'\,(?!\d)', '', text_input)
 
-        # remove lingering repeated word
-
         sentences = p.punctuate(text_input)
-
-        # fix duplicate punctuation
-        sentences = sentences.replace(' .', '.')
-        sentences = sentences.replace(' :', ':')
-        sentences = sentences.replace(' ,', ',')
-        sentences = sentences.replace('  ,', ',')
-        sentences = sentences.replace(', ,', ',')
-        sentences = sentences.replace(', :', ',')
-        sentences = sentences.replace(', .', ',')
-        sentences = sentences.replace(' ,,', ',')
-        sentences = sentences.replace('. .', '.')
-        sentences = sentences.replace('.,', '.')
-        sentences = sentences.replace(',-', '-')
-        sentences = sentences.replace('??', '?')
-        sentences = sentences.replace('?,', '?')
-        sentences = sentences.replace(',?', '?')
-        sentences = sentences.replace('?,', '?')
-        sentences = sentences.replace('?.', '?')
-        sentences = sentences.replace('.?', '?')
-        sentences = sentences.replace('!!', '!')
-        sentences = sentences.replace(',!', '!')
-        sentences = sentences.replace('::', ':')
-        sentences = sentences.replace(':.', ':')
-        sentences = sentences.replace(',:', ',')
-        sentences = sentences.replace(',.', '.')
-        sentences = sentences.replace(':,', ',')
-        sentences = sentences.replace(',;', ';')
-        sentences = sentences.replace('-,', ',')
-        sentences = sentences.replace('.-', '.')
-        sentences = sentences.replace(': ,', ':')
-        sentences = sentences.replace('..', '.')
-        sentences = sentences.replace(',,', ',')
-        sentences = sentences.replace('-, ', '-')
-        sentences = sentences.replace(' - ', '-')
-        sentences = sentences.replace(', , ', ', ')
-        sentences = sentences.replace(' , ', ', ')
+    sentences = fix_weird_punctuation(sentences)
     return sentences
+
+
+def autocorrect(text_input):
+    #from gingerit.gingerit import GingerIt
+    #parser = GingerIt()
+    #return parser.parse(text_input)
+    """import language_check
+    tool = language_check.LanguageTool('en-US')
+    matches = tool.check(text_input)
+    for i in range(len(matches)):
+        print(matches[i])
+    return language_check.correct(text_input, matches)"""
+    from autocorrect import Speller
+    spell = Speller()
+    return spell(text_input)
 
 
 def text_length(text_input):
@@ -175,7 +266,7 @@ def noun_counter(nlp_text, n=None, all_nouns=None):
     import collections
     import spacy
 
-    nlp = spacy.load('en_core_web_sm')
+    nlp = spacy.load('en_core_web_lg')
     # apply spacy nlp
     doc = nlp(nlp_text)
 
@@ -189,14 +280,17 @@ def noun_counter(nlp_text, n=None, all_nouns=None):
 
     # remove the vague words
     vague_words = ["organizations", "priorities", 'point', 'points', 'letters', 'community', 'area', 'issues', 'lot',
-                   'meeting', "bit",
+                   'meeting', "bit", "chair", "chairs", "vote", "phone", "vice", "communities",
                    'district', 'issue', 'people', 'application', 'process', 'applicants', 'process', 'comments',
                    'committee', 'committees', 'things', 'thing', 'members', 'office', 'letter', 'board', 'city', 'time',
-                   'borough', "thanks",
+                   'borough', "thanks", "example", "guys", "person", "list", "terms", "information", "conversation",
+                   "response", "years", "fact", "work", "role", "member", "minutes", "dates", "kind",
+                   "form", "session", "motion", "member", "days", "opportunity", "subject", "extent",
                    'question', 'way', 'application', 'resolution', 'questions', 'year', 'site', 'number', 'folks',
-                   'support', 'group', 'sort', 'recommendations', 'recommendation', 'items', 'co', 'a.m.', 'p.m.',
+                   'support', 'group', 'sort', 'recommendations', 'recommendation', "item", 'items', 'co', 'a.m.', 'p.m.', "pm",
+                   "am", "Applause", "week", "weeks", "email", "month", "months", "agenda", "person"
                    "A.M.", "P.M.", "P.M", "A.M", "districts", "use", "presentation", "tonight", "majority", "meetings",
-                   "discussion", "couple", "hand", "hands", "stuff", "pm", "lots", "I."]
+                   "discussion", "couple", "hand", "hands", "stuff", "pm", "lots", "I.", "bit", "screen"]
     vague_counter = collections.Counter()
     for i in vague_words:
         value = noun_counter.get(i)
@@ -259,10 +353,10 @@ def phrase_list(text, phrase_list_input):
     import spacy
     from string import punctuation
     from spacy.matcher import PhraseMatcher
-    nlp = spacy.load('en_core_web_sm')
+    nlp = spacy.load('en_core_web_lg')
 
     # use spacy nlp.vocab object for encoded annotations adds the “key” for index
-    phrase_matcher = PhraseMatcher(nlp.vocab)
+    phrase_matcher = PhraseMatcher(nlp.vocab, attr="LOWER")
 
     # create list of phrases that should provide important context to capture in text
     phrases = phrase_list_input
@@ -274,7 +368,16 @@ def phrase_list(text, phrase_list_input):
         phrase_matcher.add(f'{key}', None, *patterns)
 
     # apply nlp model
-    processed_text = nlp(text)
+    doc = nlp(text)
+
+    # fine tune sentence boundary
+    sentence_list = []
+    [sentence_list.append(sent.text + " ") if sent.text[-1] in punctuation else sentence_list.append(sent.text + '. ')
+     for sent in doc.sents]
+
+    text_sentence_split = "".join(sentence_list)
+
+    processed_text = nlp(text_sentence_split)
 
     # match on processed text
     important_sentences = []
@@ -302,5 +405,6 @@ def iterate_summary_input(input_text, phrase_list_input):
     """
     # rerun punctuation model, with better performance on smaller subset of text
     all_text = add_punctuation(input_text, iteration=True)
+    # using spacy split further into sentences and filter to the phrase list
     all_text = phrase_list(all_text, phrase_list_input)
     return all_text
