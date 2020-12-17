@@ -1,3 +1,23 @@
+def analyze_month(end_date=None):
+    """
+    Input date to filter database by.
+    @param start_date: initial date to filter a month from
+    @return: date range of month from start date.
+    """
+    import datetime as dt
+    from datetime import datetime
+
+    # Query to last week's data
+    if end_date is not None:
+        day = datetime.strptime(end_date, '%Y-%m-%d')
+    else:
+        day = dt.datetime.now().date()
+
+    # Make range date
+    start = day - dt.timedelta(days=30)
+    end = day
+    return start, end
+
 def analyze_week(start_date_input=None):
     """
     Input date
@@ -144,7 +164,7 @@ if __name__ == "__main__":
     from transformers import pipeline
 
     classifier = pipeline("zero-shot-classification")
-    start_date, end_date = analyze_week(start_date_input=None)
+    start_date, end_date = analyze_month(end_date='2020-12-04')
     print(f'analyze from {start_date} to {end_date}')
     db_collection = get_collection('transcripts_v3')
     db_query = filter_db_object(db_collection, start_date, end_date)

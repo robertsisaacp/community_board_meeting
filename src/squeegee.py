@@ -158,6 +158,11 @@ def clean_transcript(text_input):
 
 
 def fix_weird_punctuation(text_input):
+    """
+    Fix any errors from Punctuator model
+    @param text_input:
+    @return:
+    """
     import re
     # fix duplicate punctuation
     sentences = text_input.replace(" '", "'")
@@ -197,6 +202,11 @@ def fix_weird_punctuation(text_input):
     sentences = sentences.replace(' , ', ', ')
     # fix spacing if not whitespace
     sentences = re.sub(r' (?=\W)', '', sentences)
+
+    # remove any punctuation added between New York City
+    sentences = sentences.replace("New, York, City", 'New York City')
+    sentences = sentences.replace("New York, City", 'New York City')
+    sentences = sentences.replace("New, York City", 'New York City')
 
     return sentences
 
@@ -275,12 +285,12 @@ def noun_counter(nlp_text, n=None, all_nouns=None):
                    'committee', 'committees', 'things', 'thing', 'members', 'office', 'letter', 'board', 'city', 'time',
                    'borough', "thanks", "example", "guys", "person", "list", "terms", "information", "conversation",
                    "response", "years", "fact", "work", "role", "member", "minutes", "dates", "kind",
-                   "form", "session", "motion", "member", "days", "opportunity", "subject",
+                   "form", "session", "motion", "member", "days", "opportunity", "subject", "extent",
                    'question', 'way', 'application', 'resolution', 'questions', 'year', 'site', 'number', 'folks',
                    'support', 'group', 'sort', 'recommendations', 'recommendation', "item", 'items', 'co', 'a.m.', 'p.m.', "pm",
                    "am", "Applause", "week", "weeks", "email", "month", "months", "agenda", "person"
                    "A.M.", "P.M.", "P.M", "A.M", "districts", "use", "presentation", "tonight", "majority", "meetings",
-                   "discussion", "couple", "hand", "hands", "stuff", "pm", "lots", "I.", "bit"]
+                   "discussion", "couple", "hand", "hands", "stuff", "pm", "lots", "I.", "bit", "screen"]
     vague_counter = collections.Counter()
     for i in vague_words:
         value = noun_counter.get(i)
@@ -358,7 +368,16 @@ def phrase_list(text, phrase_list_input):
         phrase_matcher.add(f'{key}', None, *patterns)
 
     # apply nlp model
-    processed_text = nlp(text)
+    doc = nlp(text)
+
+    # fine tune sentence boundary
+    sentence_list = []
+    [sentence_list.append(sent.text + " ") if sent.text[-1] in punctuation else sentence_list.append(sent.text + '. ')
+     for sent in doc.sents]
+
+    text_sentence_split = "".join(sentence_list)
+
+    processed_text = nlp(text_sentence_split)
 
     # match on processed text
     important_sentences = []
@@ -386,5 +405,6 @@ def iterate_summary_input(input_text, phrase_list_input):
     """
     # rerun punctuation model, with better performance on smaller subset of text
     all_text = add_punctuation(input_text, iteration=True)
+    # using spacy split further into sentences and filter to the phrase list
     all_text = phrase_list(all_text, phrase_list_input)
     return all_text

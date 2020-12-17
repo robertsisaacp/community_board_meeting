@@ -39,8 +39,8 @@ def test_phrase_list_more_robust():
     import json
     with open(f'../json_objects/BiPmjuZAJkc.json') as jsonfile:
         data = json.load(jsonfile)
-        summary = data.get('properties').get('summary')
-        important_sentence = phrase_list(summary)
+        summary = data.get('data').get('properties').get('fullTranscript')
+        important_sentence = phrase_list(summary, phrase_maker())
     assert important_sentence == 'It is extremely difficult for the seniors and disabled.'
 
 
@@ -198,3 +198,10 @@ def test_fix_street():
     assert fixed_output == "Bloomingdale Square ran from 53rd to 57th streets between 8th and 9th Avenue. The Bloomingdale Dutch " \
                            "Reform Church was at 68th Street and the Bloomingdale Insane Asylum was at 116th Street in the early " \
                            "1800s. As the West side became, more populated, distinct villages."
+
+
+def test_fix_weird_punctuation():
+    test_input_string = "On the New, York City, small business."
+    test_input_string_1 = "On the New, York, City, small business."
+    assert fix_weird_punctuation(test_input_string) == "On the New York City, small business."
+    assert fix_weird_punctuation(test_input_string_1) == "On the New York City, small business."

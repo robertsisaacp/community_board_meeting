@@ -48,9 +48,21 @@
     "copio 19",
     "Copio 19",
     "Colvin",
-    "colvin"
+    "colvin",
+    "covalent",
+    "Colgate",
+    "colgate",
+    "cobia 19",
+    "cobia",
+    "cove 19",
+    "covit 19"
   ],
   "capital": [
+    "uv",
+    "phndc",
+    "nyu",
+    "copa",
+    "ulurp",
     "td",
     "eoh",
     "dc",
@@ -248,7 +260,15 @@
     "hcr",
     "scr",
     "fyi",
-    "omh"
+    "omh",
+    "fcc",
+    "ibz",
+    "pcr",
+    "pd",
+    "llc",
+    "bsc",
+    "nca",
+    "acdp"
   ],
   "title": [
     "gotham",
@@ -367,13 +387,9 @@
     "bay terrace", "butler manor", "charleston", "eltingville", "fresh kills", "great kills", "greenridge", "huguenot",
     "oakwood", "oakwood beach", "oakwood heights", "pleasant plains", "prince's bay", "richmond town",
     "richmond valley", "rossville", "sandy ground", "tottenville", "woodrow", "red hook", "times square","park slope",
-    "bogardus","biden"
+    "bogardus","biden","powers"
   ],
   "filler": [
-    "uh.",
-    "um.",
-    "uh,",
-    "um,",
     "um",
     "uh",
     "[music]",
@@ -384,6 +400,19 @@
     "[Applause]"
   ],
   "spelling": {
+    "fedepe": "ACDP",
+    "dcps": "DCP",
+    "sexting": "section",
+    "liver law": "Sliver Law",
+    "grant hyatt": "Grand Hyatt",
+    "grand central": "Grand Central",
+    "fun projects": "fund projects",
+    "niger housing": "NYCHA housing",
+    "Niger housing": "NYCHA housing",
+    "that the these": "that these",
+    "long the weight": "long the wait",
+    "guanis": "Gowanus",
+    "5 g": "5G",
     "covered protocols": "Covid-19 protocols",
     "carolina rivera": "Carlina Rivera",
     " f b ": "F&B",

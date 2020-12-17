@@ -1,10 +1,10 @@
 {
   "parks":["garden", "park", "tree", "bush", "greenway", "green", "air", "planters", "fence", "outdoor",
   "table", "seating", "dog", "turf", "field", "planting", "seed", "comfort station", "swings", "play", "tables",
-    "trees", "playground", "plant", "gate", "bench", "sandbox", "statue", "skateboard"],
+    "trees", "playground", "plant", "gate", "bench", "sandbox", "statue", "skateboard", "bird", "nature"],
   "education": ["school", "student","teacher","education", "class", "online", "remote learning", "bullying", "bully",
   "college", "university", "curriculum", "blended", "enrichment", "pre-k", "kindergarten", " learning labs",
-  "k-8", "campus", "high school", "teachers", "report card", "classroom", "principal", "academic", "educate"],
+  "k-8", "campus", "high school", "teachers", "report card", "classroom", "principal", "academic", "educate","principal"],
   "technology": ["electronic", "technology", "privacy", "interoperability", "spam", "energy", "equipment", "mechanical",
   "connectivity", "construction", "automated", "science", "innovation", "311", "911","software", "hardware",
     "recognition", "surveillance"],

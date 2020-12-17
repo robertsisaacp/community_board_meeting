@@ -17,7 +17,7 @@ if __name__ == "__main__":
         video_url = f"https://www.youtube.com/watch?v={transcript_id}"
         print(f'Obtaining transcript for {transcript_id}')
         try:
-            meeting, transcript_formatted = get_transcript(transcript_id)
+            meeting = get_transcript(transcript_id)
             print('Transcript obtained!')
             processed_ids.append(transcript_id)
         except Exception as e:
@@ -27,14 +27,9 @@ if __name__ == "__main__":
         print('Cleaning Transcript...')
         meeting, num_filler = clean_transcript(meeting)
 
-        if transcript_formatted is False:
-            print('Splitting into Sentences, adding punctuation')
-            print('Adding Punctuation')
-            summary_input = add_punctuation(meeting)
-        else:
-            # if already formatted, just keep as is
-            print('Already split into sentences, transcript aggregated')
-            summary_input = meeting
+        print('Splitting into Sentences, adding punctuation')
+        print('Adding Punctuation')
+        summary_input = add_punctuation(meeting)
 
         print("Get phrase_list:")
         phrase_list_intermediary_summary = phrase_maker()
